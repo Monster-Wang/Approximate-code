@@ -1,0 +1,307 @@
+*****************add8_GDA_St_N8_M8_P6***********************
+
+    1     1gat inpt    2   0 
+    2     2fan from     1gat 
+    3     3fan from     1gat 
+	4     4gat inpt    2   0 
+    5     5fan from     4gat 
+    6     6fan from     4gat 
+
+    7     7gat inpt    3   0 
+    8     8fan from     7gat 
+    9     9fan from     7gat 
+   10    10fan from     7gat 
+   11    11gat inpt    3   0 
+   12    12fan from    11gat 
+   13    13fan from    11gat 
+   14    14fan from    11gat 
+
+   15    15gat inpt    3   0 
+   16    16fan from    15gat 
+   17    17fan from    15gat 
+   18    18fan from    15gat 
+   19    19gat inpt    3   0 
+   20    20fan from    19gat 
+   21    21fan from    19gat 
+   22    22fan from    19gat 
+
+   23    23gat inpt    3   0 
+   24    24fan from    23gat 
+   25    25fan from    23gat 
+   26    26fan from    23gat 
+   27    27gat inpt    3   0 
+   28    28fan from    27gat 
+   29    29fan from    27gat 
+   30    30fan from    27gat 
+
+   31    31gat inpt    3   0 
+   32    32fan from    31gat 
+   33    33fan from    31gat 
+   34    34fan from    31gat 
+   35    35gat inpt    3   0 
+   36    36fan from    35gat 
+   37    37fan from    35gat 
+   38    38fan from    35gat 
+
+   39    39gat inpt    3   0 
+   40    40fan from    39gat 
+   41    41fan from    39gat 
+   42    42fan from    39gat 
+   43    43gat inpt    3   0 
+   44    44fan from    43gat 
+   45    45fan from    43gat 
+   46    46fan from    43gat 
+
+   47    47gat inpt    3   0 
+   48    48fan from    47gat 
+   49    49fan from    47gat 
+   50    50fan from    47gat 
+   51    51gat inpt    3   0 
+   52    52fan from    51gat 
+   53    53fan from    51gat 
+   54    54fan from    51gat 
+
+   55    55gat inpt    3   0 
+   56    56fan from    55gat 
+   57    57fan from    55gat 
+   58    58fan from    55gat 
+   59    59gat inpt    3   0 
+   60    60fan from    59gat 
+   61    61fan from    59gat 
+   62    62fan from    59gat 
+
+   63    63gat and     2   2
+    2    5
+   64    64fan from    63gat
+   65    65fan from    63gat
+   66    66gat xor     0   2
+    3    6
+
+   67    67gat and     2   2
+     8     12
+   68    68fan from    67gat
+   69    69fan from    67gat
+   70    70gat xor     1   2
+     9    13
+   71    71gat xor     1   2
+     10    14
+
+   72    72gat and     2   2
+    16    20
+   73    73fan from    72gat
+   74    74fan from    72gat
+   75    75gat xor     2   2
+    21    17
+   76    76fan from    75gat
+   77    77fan from    75gat
+   78    78gat xor     1   2
+    22     18
+
+   79    79gat and     2   2
+    24    28
+   80    80fan from    79gat
+   81    81fan from    79gat
+   82    82gat xor     3   2
+    25    29
+   83    83fan from    82gat
+   84    84fan from    82gat
+   85    85fan from    82gat
+   86    86gat xor     1   2
+    26     30
+
+   87    87gat and     2   2
+    32    36
+   88    88fan from    87gat
+   89    89fan from    87gat
+   90    90gat xor     4   2
+    33    37
+   91    91fan from    90gat
+   92    92fan from    90gat
+   93    93fan from    90gat
+   94    94fan from    90gat
+   95    95gat xor     1   2
+    34    38
+
+   96    96gat and     2   2
+    40    44
+   97    97fan from    96gat
+   98    98fan from    96gat
+   99    99gat xor     5   2
+    41    45
+  100    100fan from    99gat
+  101    101fan from    99gat
+  102    102fan from    99gat
+  103    103fan from    99gat
+  104    104fan from    99gat
+  105    105gat xor     1   2
+    42    46
+
+  106    106gat and     1   2
+    48    52
+   107    107gat xor    5   2
+    48    53
+   108    108fan from   107gat
+   109    109fan from   107gat
+   110    110fan from   107gat
+   111    111fan from   107gat
+   112    112fan from   107gat
+   113    113gat xor     1   2
+    50    54
+
+   114    114gat xor    1   2
+    56     61
+   115    115gat and    1   2
+    58     62
+
+   116    116gat and    2   2
+    64     70
+   117    117fan from   116gat
+   118    118fan from   116gat
+   119    119gat xor    0   2
+    65     71
+
+   120    120gat and    2   2
+    69     77
+   121    121fan from   120gat
+   122    122fan from   120gat
+
+   123    123gat and    2   2
+    74     85
+   124    124fan from   123gat
+   125    125fan from   123gat
+
+   126    126gat and    2   2
+    81     93
+   127    127fan from   126gat
+   128    128fan from   126gat
+
+   129    129gat and    2   2
+    89     103
+   130    130fan from   129gat
+   131    131fan from   129gat
+
+   132    132gat and    1   2
+    98     112
+
+   133    133gat or     1   2
+    117     68
+   134    134gat and    2   2
+    118     76
+   135    135gat from    134gat
+   136    136gat from    134gat
+
+   137    137gat and    2   2
+    122     83
+   138    138gat from    137gat
+   139    139gat from    137gat
+
+   140    140gat and    2   2
+    125     94
+   141    141gat from    140gat
+   142    142gat from    140gat
+
+   143    143gat and    2   2
+    128    100
+   144    144gat from    143gat
+   145    145gat from    143gat
+
+   196    196gat and    1   2
+    131    111
+
+   146    146gat xor    0   2
+    133    78
+   147    147gat or     1   2
+    135    121
+   148    148gat and    2   2
+    136    84
+   149    149gat from    148gat
+   150    150gat from    148gat
+   151    151gat and    2   2
+    139    91
+   152    152gat from    151gat
+   153    153gat from    151gat
+   154    154gat and    2   2
+    142    104
+   155    155gat from    154gat
+   156    156gat from    154gat
+   157    157gat and    1   2
+    145    110
+
+   158    158gat or     1   2
+    147     73
+   159    159gat or     1   2
+    138     149
+   160    160gat and    2   2
+    150    92
+   161    161gat from    160gat
+   162    162gat from    160gat
+   163    163gat and    2   2
+    153    101
+   164    164gat from    163gat
+   165    165gat from    163gat
+   197    197gat and    1   2
+    156    108
+
+   166    166gat xor    0   2
+    158     86
+   167    167gat or     1   2
+    159     124
+   168    168gat or     1   2
+    152     161
+   169    169gat and    1   2
+    162    102
+   170    170gat and    1   2
+    165    109
+
+   171    171gat or     1   2
+    167     80
+   172    172gat or     1   2
+    168     141
+   173    173gat or     1   2
+    169     164
+   174    174gat or     1   2
+    170     197
+
+   175    175gat xor    0   2
+    171     105
+   176    176gat or     1   2
+    172     127
+   177    177gat or     1   2
+    173    155
+   178    178gat or     1   2
+    174    157
+
+   179    179gat or     1   2
+    176     88
+   180    180gat or     1   2
+    177    144
+   181    181gat or     1   2
+    178    196
+
+   182    182gat xor    0   2
+    179    105
+   183    183gat or     1   2
+    180    130
+   184    184gat or     1   2
+    181    132
+   185    185gat or     1   2
+    183    97
+   186    186gat or     3   2
+    184    106
+   187    187gat from    186gat
+   188    188gat from    186gat
+   189    189gat from    186gat
+
+   190    190gat xor     0   2
+    185    113
+   191    191gat xor     0   2
+    187    114
+   192    192gat and     1   2
+    188    60
+   193    193gat and     1   2
+    189    57
+
+   194    194gat or     1   2
+    193    192
+   195    195gat or     0   2
+    194    115

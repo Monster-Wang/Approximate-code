@@ -1,0 +1,231 @@
+**************************
+*Add8_006     Gates：42
+*第四列是输出端   
+*第五列是输入端     如果这一行对应的是一个逻辑门，下一行应给出输入的节点标号
+**************************
+    1      1gat inpt    1   0
+    2      2gat inpt    1   0
+
+    3      3gat inpt    2   0
+    4      4fan from    3gat
+    5      5fan from    3gat
+
+    6    6gat inpt    2   0
+    7    7fan from    6gat
+    8    8fan from    6gat
+
+    9      9gat inpt    2   0
+    10     10fan from     9gat
+    11     11fan from     9gat
+
+    12     12gat inpt   2   0
+    13     13fan from   12gat
+    14     14fan from   12gat
+
+    15    15gat inpt    3   0
+    16    16fan from     15gat
+    17    17fan from     15gat
+    18    18fan from     15gat
+
+    19    19gat inpt    3   0
+    20    20fan from    19gat
+    21    21fan from    19gat
+    22    22fan from    19gat
+
+    23    23gat inpt    4   0
+    24    24fan from     23gat
+    25    25fan from     23gat
+    26    26fan from     23gat
+	27    27fan from     23gat
+
+    28    28gat inpt    4   0
+    29    29fan from    28gat
+    30    30fan from    28gat
+    31    31fan from    28gat
+	32    32fan from    28gat
+
+    33    33gat inpt    2   0
+    34    34fan from    33gat
+    35    35fan from    33gat
+
+    36    36gat inpt    2   0
+    37    37fan from    36gat
+    38    38fan from    36gat
+
+    39    39gat inpt    2   0
+    40    40fan from    39gat
+    41    41fan from    39gat
+
+    42    42gat inpt    2   0
+    43    43fan from    42gat
+    44    44fan from    42gat
+
+    45    45gat inpt    2   0
+    46    46fan from    45gat
+    47    47fan from    45gat
+
+    48    48gat inpt    2   0
+    49    49fan from    48gat
+    50    50fan from    48gat
+**************************
+
+    51    51gat xor    0   2
+    1     2
+
+    52    52gat xor    0   2
+    4     7
+
+    53    53gat and    2   2
+    5     8
+	54    54fan from  53gat
+	55    55fan from  53gat
+
+	56    56gat and   2    2
+	10    13
+	57    57fan from  56gat
+	58    58fan from  56gat
+
+	59    59gat xor   1    2
+	11    14
+
+	60    60gat xor   2    2
+	16    20
+    61    61fan from    60gat
+    62    62fan from    60gat
+
+    63    63gat  and    2   2
+    17    21
+    64    64fan from    63gat
+    65    65fan from    63gat
+
+    66    66gat or     1   2
+    18    22
+	67    67gat xor    1   2
+    24    29
+	68    68gat and    1   2
+    25    30
+	69    69gat or     1   2
+    26    31
+	70    70gat xor    1   2
+    27    32
+
+    71    71gat xor    2   3
+    34    37
+    72    72fan from    71gat
+    73    73fan from    71gat
+	74    74fan from    71gat
+
+	75    75gat and    2  2
+	35    38
+	76    76fan from   75gat
+	77    77fan from   75gat
+
+    78    78gat  xor    3   2
+    40    43
+    79    79fan from    78gat
+    80    80fan from    78gat
+	81    81fan from    78gat
+
+    82    82gat  and    1   2
+    41    44
+
+    83    83gat  xor    2   2
+    46    49
+    84    84fan from    83gat
+    85    85fan from    83gat
+
+    86    86gat  and    1   2
+    47     50
+**************************
+
+    87   87gat  and    1   2
+    54   57
+
+    88   88gat  xor    0   2
+    55   58
+
+    89   89gat  and    1   2
+    64   69
+
+    90   90gat  and    1   2
+    66   67
+
+    91   91gat  and    1   2
+    74   79
+
+    92   92gat  and    1   2
+    77   80
+**************************
+
+    93   93gat  or    3   2
+    59   87
+    94   94fan from   93gat
+    95   95fan from   93gat
+    96   96fan from   93gat
+
+    97   97gat or    1   2
+    68   89
+
+    98   98gat or    1   2
+    82   92
+**************************
+
+    99   99gat  and    1   2
+    90   94
+
+    100  100gat  and    1   2
+    61   95
+
+    101  101gat  and    0   2
+    62   96
+**************************
+
+    102  102gat  or    3   2
+    97   99
+    103  103fan from   102gat
+    104  104fan from   102gat
+    105  105fan from   102gat
+
+    106  106gat or    1   2
+    65   100
+**************************
+
+    107  107gat  xor    0   2
+    70   106
+
+    108  108gat  xor    0   2
+    72   103
+
+    109  109gat  and    1   2
+    73   104
+
+    110  110gat  and    1   2
+    91   105
+**************************
+
+    111  111gat   or    1   2
+    76   109
+
+	112  112gat   or    2   2
+    98   110
+    113  113fan from   112gat
+    114  114fan from   112gat
+**************************
+
+    115  115gat  xor    0   2
+    81   111
+
+    116  116gat  xor    0   2
+    84   113
+
+	117  117gat  and    1   2
+    85   114
+**************************
+
+    118  118gat  or    0   2
+    86   117
+**************************
+
+
+
+

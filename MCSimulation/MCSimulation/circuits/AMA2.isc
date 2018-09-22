@@ -1,0 +1,34 @@
+***************************************************    
+	1     1gat inpt    1   0      >sa1
+    2     2gat inpt    1   0      >sa1
+    3     3gat inpt    1   0      >sa1
+	4     4gat inpt    1   0      >sa1
+	5     5gat inpt    1   0      >sa1
+	6     6fan from    2gat       >sa1
+	7     7fan from    2gat       >sa1
+	8     8fan from    3gat       >sa1
+	9     9fan from    3gat       >sa1
+   10    10fan from    4gat       >sa1
+   11    11fan from    4gat       >sa1	
+   12    12fan from    5gat       >sa1
+   13    13fan from    5gat       >sa1	
+   14    14gat not     1   1 >sa0 >sa1
+	12     
+   15    15gat not     1   1 >sa0 >sa1
+	11  
+   16    16gat not     1   1 >sa0 >sa1
+	 8
+   17    17gat not     1   1 >sa0 >sa1
+	 7
+   18    18gat and     1   2 >sa0 >sa1
+	14    15  
+   19    19gat and     1   2 >sa0 >sa1
+	16    17
+   20    20gat or      1   2 >sa0 >sa1
+	18    10 
+   21    21gat or      1   2 >sa0 >sa1
+	19     6 
+   22    22gat and     0   2 >sa0 >sa1
+	20     9
+   23    23gat and     0   2 >sa0 >sa1
+	21     1

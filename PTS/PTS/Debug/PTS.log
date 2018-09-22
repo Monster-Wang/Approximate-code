@@ -1,0 +1,33 @@
+﻿生成启动时间为 2018/9/22 9:52:21。
+     1>项目“D:\VS Files\Circuit Simulation\PTS\PTS\PTS.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CircuitProcess.cpp main.cpp
+         main.cpp
+     1>d:\vs files\circuit simulation\pts\pts\main.cpp(49): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+         CircuitProcess.cpp
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(68): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(73): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(85): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(89): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(101): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(105): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(117): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(121): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(133): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(137): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(149): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(228): warning C4101: “x2”: 未引用的局部变量
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(228): warning C4101: “x1”: 未引用的局部变量
+         正在生成代码...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.pdb" /HEAP:"500000000" /STACK:"500000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.lib" /MACHINE:X86 Debug\CircuitProcess.obj
+         Debug\LogicFunction.obj
+         Debug\main.obj
+         Debug\Matrix.obj
+         Debug\NetlistToMap.obj
+         PTS.vcxproj -> D:\VS Files\Circuit Simulation\PTS\Debug\PTS.exe
+     1>已完成生成项目“D:\VS Files\Circuit Simulation\PTS\PTS\PTS.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.32
