@@ -80,12 +80,12 @@
 	54    54fan from  53gat
 	55    55fan from  53gat
 
-	56    56gat and   2    2
+	56    56gat xor   2    2
 	10    13
 	57    57fan from  56gat
 	58    58fan from  56gat
 
-	59    59gat xor   1    2
+	59    59gat and   1    2
 	11    14
 
 	60    60gat xor   2    2
@@ -176,7 +176,7 @@
     100  100gat  and    1   2
     61   95
 
-    101  101gat  and    0   2
+    101  101gat  or    0   2
     62   96
 **************************
 

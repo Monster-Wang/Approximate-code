@@ -1,6 +1,7 @@
 #include "CircuitProcess.h"
 #include "LogicFunction.h"
 #include "MCSimulation.h"
+#include <map>
 
 CircuitProcess::CircuitProcess(){
 	;
@@ -357,4 +358,66 @@ void CircuitProcess::DivideByGate(Struct_Module *Module)
 			break;
 		}
 	}
+}
+
+
+vector <int> CircuitProcess::IOPinGenerate(Struct_Module *Module){
+	/*AXA1*/	//int iotemp[] = { 13, 10, 7, 4, 1, 15, 28, 31 };
+	/*AMA2*/	//int iotemp[] = { 1, 2, 3, 4, 5, 23, 22, 13 };
+	/*InXA1*/	//int iotemp[] = { 3, 1, 2, 4, 5, 10, 13, 11 };
+	/*add8_ACA_I_N8_Q5*/	 //int iotemp[] = {-1, 1, 4, 7, 12, 17, 24, 31, 40, 49, 57, 65, 71, 77, 81, 85, 89, 93, 127, 153, 179, 199, 200, 201, 202, 206 };
+	/*add8_ACA_II_N8_Q4*/	 //int iotemp[] = {-1, 1, 4, 7, 11, 15, 20, 25, 29, 33, 38, 43, 47, 51, 55, 59, 63, 67, 91, 113, 131, 116, 132, 119, 133, 137 };
+	/*add8_GDA_St_N8_M8_P1*/ //int iotemp[] = {-1, 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 47, 52, 70, 71, 72, 73, 74, 75, 76, 80 };
+
+	//{65, 69, 42, 55, 97, 46, 4, 12}//第一个乘数，从低位到高位
+	//{9, 1, 31, 60, 91, 23, 34, 82}//第二个乘数，从低位到高位
+	//{145, 405, 250, 304, 354, 452, 404, 453, 406, 362, 407, 446, 454, 462, 470, 475}//积，从低位到高位
+	map <string, vector<int>> ioterminal;
+	vector <int> iotmp = { 13, 10, 7, 4, 1, 15, 28, 31 };
+	ioterminal.insert(map <string, vector<int>>::value_type("AXA1", iotmp));
+	iotmp.clear();
+
+	iotmp = { 1, 2, 3, 4, 5, 23, 22, 13 };
+	ioterminal.insert(map <string, vector<int>>::value_type("AMA2", iotmp));
+	iotmp.clear();
+
+	iotmp = { 3, 1, 2, 4, 5, 10, 13, 11 };
+	ioterminal.insert(map <string, vector<int>>::value_type("InXA1", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 1, 4, 7, 12, 17, 24, 31, 40, 49, 57, 65, 71, 77, 81, 85, 89, 93, 127, 153, 179, 199, 200, 201, 202, 206 };
+	ioterminal.insert(map <string, vector<int>>::value_type("add8_ACA_I_N8_Q5", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 1, 4, 7, 11, 15, 20, 25, 29, 33, 38, 43, 47, 51, 55, 59, 63, 67, 91, 113, 131, 116, 132, 119, 133, 137 };
+	ioterminal.insert(map <string, vector<int>>::value_type("add8_ACA_II_N8_Q4", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 47, 52, 70, 71, 72, 73, 74, 75, 76, 80 };
+	ioterminal.insert(map <string, vector<int>>::value_type("add8_GDA_St_N8_M8_P1", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 1, 2, 3, 6, 9, 12, 15, 19, 23, 28, 33, 36, 39, 42, 45, 48, 51, 52, 88, 101, 107, 108, 115, 116, 118 };
+	ioterminal.insert(map <string, vector<int>>::value_type("add8_006", iotmp));
+	iotmp.clear();
+
+	iotmp = { 65, 9, 69, 1, 42, 31, 55, 60, 97, 91, 46, 23, 4, 34, 12, 82, 145, 405, 250, 304, 354, 452, 404, 453, 406, 362, 407, 446, 454, 462, 470, 475 };
+	ioterminal.insert(map <string, vector<int>>::value_type("mul8_128", iotmp));
+	iotmp.clear();
+
+	iotmp = {-1, 1, 4, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 66, 109, 129, 143, 144, 145, 146, 147, 151};
+	ioterminal.insert(map <string, vector<int>>::value_type("add8_GDA_St_N8_M8_P3", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 52, 27, 55, 1, 70, 79, 37, 82, 93, 73, 86, 30, 4, 42, 16, 59, 400, 419, 389, 175, 263, 470, 420, 469, 398, 401, 422, 452, 465, 473, 481, 486 };
+	ioterminal.insert(map <string, vector<int>>::value_type("mul8_024", iotmp));
+	iotmp.clear();
+
+	iotmp = { -1, 1, 17, 18, 5, 74, 40, 59, 24, 45, 66, 52, 79, 8, 87, 32, 95, 246, 616, 237, 621, 121, 623, 622, 624, 512, 559, 307, 350, 448, 540, 322, 349 };
+	ioterminal.insert(map <string, vector<int>>::value_type("mul8_332", iotmp));
+	iotmp.clear();
+
+	string str = Module->Name;
+	vector <int> temp = ioterminal[str];
+	return temp;
 }

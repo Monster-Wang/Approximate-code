@@ -100,7 +100,7 @@ bool NetlistToMap::ParseNetlist(char *filename)
 							fclose(fp);
 							return false; // 超过整个模块的最大门数
 						}
-						memset(&m_TotalModule->Gates[Temp], 0, sizeof(Struct_Gate));
+						//memset(&m_TotalModule->Gates[Temp], 0, sizeof(Struct_Gate));
 						m_TotalModule->NodeNum++;
                         m_TotalModule->GateNum++;
 						m_TotalModule->Gates[Temp].Tag = Fir;

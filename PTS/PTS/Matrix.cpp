@@ -66,7 +66,7 @@ bool Matrix::MatrixMultiply(Struct_Matrix *src, Struct_Matrix *dest )
 bool Matrix::MatrixTensor(Struct_Matrix *src, Struct_Matrix *dest)
 {
 	int i, j, m, n;
-	float Temp[MAX_MATRIX_SQUARE][MAX_MATRIX_SQUARE];
+	float Temp[1][MAX_MATRIX_SQUARE];
 
 	if (src->Col == 0 || src->Row == 0  || src->Col > MAX_MATRIX_SQUARE
 		|| src->Row > MAX_MATRIX_SQUARE || dest->Col > MAX_MATRIX_SQUARE
@@ -85,19 +85,20 @@ bool Matrix::MatrixTensor(Struct_Matrix *src, Struct_Matrix *dest)
 	for (i = 0; i <(src->Row); i++)
 		for (j = 0; j <(dest->Row); j++)
 			for (m = 0; m <(src->Col); m++)			
-				for (n = 0; n <(dest->Col); n++)
-					Temp[i*(dest->Row)+j][m*(dest->Col)+n] = src->Matrix[i][m] * dest->Matrix[j][n]; 
-	
+				for (n = 0; n < (dest->Col); n++)
+		           Temp[i*(dest->Row) + j][m*(dest->Col) + n] = src->Matrix[i][m] * dest->Matrix[j][n];
+					
 	for (i = 0; i <((src->Row)*(dest->Row)); i++)
 		for (j = 0; j <((src->Col)*(dest->Col)); j++)
 			dest->Matrix[i][j] = Temp[i][j];
+
 	dest->Row = (src->Row)*(dest->Row);
 	dest->Col = (src->Col)*(dest->Col);
 	return true;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-void Matrix::StoreMatrix(char *moduleName, Struct_Matrix *src)
+void Matrix::StoreMatrix(char *netName, Struct_Matrix *src)
 {
 	FILE *fp;
 	int i, j;
@@ -108,7 +109,7 @@ void Matrix::StoreMatrix(char *moduleName, Struct_Matrix *src)
 		return;
 	}
 	strcpy(Filename, "./backup/");
-	strcat(Filename, moduleName);
+	strcat(Filename, netName);
 	strcat(Filename, ".txt");
 
 	fp = fopen(Filename, "a");
@@ -121,7 +122,7 @@ void Matrix::StoreMatrix(char *moduleName, Struct_Matrix *src)
 	for (i = 0; i <(src->Row); i++)
 	{
 		for (j = 0; j <(src->Col); j++)
-			fprintf(fp, "%.4f ", src->Matrix[i][j]);
+			fprintf(fp, "%.5f ", src->Matrix[i][j]);
 		fprintf(fp, "\n");
 	}
 
@@ -141,13 +142,13 @@ void Matrix::MatrixPrint(Struct_Matrix *src)
 	}
 }
 
-void Matrix::ClearFile(char *moduleName){
+void Matrix::ClearFile(char *netName){
 
 	FILE *fp;
 	int i, j;
 	char Filename[100];
 	strcpy(Filename, "./backup/" );
-	strcat(Filename, moduleName);
+	strcat(Filename, netName);
 	strcat(Filename, ".txt");
 
 	fp = fopen(Filename, "r");

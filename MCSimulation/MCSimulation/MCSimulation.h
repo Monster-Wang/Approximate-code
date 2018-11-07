@@ -3,9 +3,9 @@
 
 #include "NetlistToMap.h"
 
-#define Rg   0.99
-#define Loopcm 100000
-#define Loopap 100000
+#define Rg   0.96
+#define Loopcm 1000000
+#define Loopap 1000000
 
 template <class T>
 int getSize(T& array)
@@ -21,6 +21,7 @@ public :
 	~MCSimulation();
 	float Combination_CircuitTest();
 	float Approximate_CircuitTest();
+	float Mul_CircuitTest();
 
 private:
 	Struct_Module *m_Module;

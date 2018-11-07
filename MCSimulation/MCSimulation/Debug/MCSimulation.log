@@ -1,9 +1,33 @@
-﻿生成启动时间为 2018/9/22 9:50:07。
+﻿生成启动时间为 2018/10/25 11:32:10。
      1>项目“D:\VS Files\Circuit Simulation\MCSimulation\MCSimulation\MCSimulation.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CircuitProcess.cpp MCSimulation.cpp main.cpp
+         CircuitProcess.cpp
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(22): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(27): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(39): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(44): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(56): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(61): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(73): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(78): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(90): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(95): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(107): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(274): warning C4101: “x2”: 未引用的局部变量
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\circuitprocess.cpp(274): warning C4101: “x1”: 未引用的局部变量
+         正在生成代码...
+         正在编译...
          main.cpp
      1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\main.cpp(57): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+         MCSimulation.cpp
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(25): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(26): warning C4553: “==”: 运算符不起任何作用；是否是有意使用“=”的?
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(72): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(88): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(121): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+     1>d:\vs files\circuit simulation\mcsimulation\mcsimulation\mcsimulation.cpp(137): warning C4018: “<”: 有符号/无符号不匹配
+         正在生成代码...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\VS Files\Circuit Simulation\MCSimulation\Debug\MCSimulation.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\VS Files\Circuit Simulation\MCSimulation\Debug\MCSimulation.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\VS Files\Circuit Simulation\MCSimulation\Debug\MCSimulation.lib" /MACHINE:X86 Debug\CircuitProcess.obj
          Debug\LogicFunction.obj
@@ -15,4 +39,4 @@
 
 生成成功。
 
-已用时间 00:00:01.17
+已用时间 00:00:01.59

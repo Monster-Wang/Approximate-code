@@ -1,0 +1,743 @@
+***********************mul8_128*************************
+	1     1gat inpt    2    0
+	2     2fan from     1gat
+	3     3fan from     1gat
+
+	4     4gat inpt    12    0
+	5     5fan from     4gat
+	6     6fan from     4gat
+	7     7fan from     4gat
+	8     8fan from     4gat
+   74    74fan from     4gat
+   75    75fan from     4gat
+   76    76fan from     4gat
+   77    77fan from     4gat
+   78    78fan from     4gat
+   79    79fan from     4gat
+   80    80fan from     4gat
+   81    81fan from     4gat
+
+	9     9gat inpt    2    0
+   10    10fan from     9gat
+   11    11fan from     9gat
+
+   12    12gat inpt    11   0
+   13    13fan from    12gat
+   14    14fan from    12gat
+   15    15fan from    12gat
+   16    16fan from    12gat
+   17    17fan from    12gat
+   18    18fan from    12gat
+   19    19fan from    12gat
+   20    20fan from    12gat
+   21    21fan from    12gat
+   22    22fan from    12gat
+   45    45fan from    12gat
+
+   23    23gat inpt    7    0
+   24    24fan from    23gat
+   25    25fan from    23gat
+   26    26fan from    23gat
+   27    27fan from    23gat
+   28    28fan from    23gat
+   29    29fan from    23gat
+   30    30fan from    23gat
+
+   31    31gat inpt    2    0
+   32    32fan from    31gat
+   33    33fan from    31gat
+    
+   34    34gat inpt    8    0
+   35    35fan from    34gat
+   36    36fan from    34gat
+   37    37fan from    34gat
+   38    38fan from    34gat
+   39    39fan from    34gat
+   40    40fan from    34gat
+   41    41fan from    34gat
+  476   476fan from    34gat
+
+   42    42gat inpt    2    0
+   43    43fan from    42gat
+   44    44fan from    42gat
+
+   46    46gat inpt    8    0
+   47    47fan from    46gat
+   48    48fan from    46gat
+   49    49fan from    46gat
+   50    50fan from    46gat
+   51    51fan from    46gat
+   52    52fan from    46gat
+   53    53fan from    46gat
+   54    54fan from    46gat
+
+   55    55gat inpt    4    0
+   56    56fan from    55gat
+   57    57fan from    55gat
+   58    58fan from    55gat
+   59    59fan from    55gat
+
+   60    60gat inpt    4    0
+   61    61fan from    60gat
+   62    62fan from    60gat
+   63    63fan from    60gat
+   64    64fan from    60gat
+
+   65    65gat inpt    3    0
+   66    66fan from    65gat
+   67    67fan from    65gat
+   68    68fan from    65gat
+
+   69    69gat inpt    3    0
+   70    70fan from    69gat
+   71    71fan from    69gat
+   72    72fan from    69gat
+
+   82    82gat inpt    9    0
+   83    83fan from    82gat
+   84    84fan from    82gat
+   85    85fan from    82gat
+   86    86fan from    82gat
+   87    87fan from    82gat
+   88    88fan from    82gat
+   89    89fan from    82gat
+   90    90fan from    82gat
+  480   480fan from    82gat 
+
+
+   91    91gat inpt    5    0
+   92    92fan from    91gat
+   93    93fan from    91gat
+   94    94fan from    91gat
+   95    95fan from    91gat
+   96    96fan from    91gat
+
+   97    97gat inpt    5    0
+   98    98fan from    97gat
+   99    99fan from    97gat
+  100   100fan from    97gat
+  101   101fan from    97gat
+  102   102fan from    97gat
+
+***************************************
+  103   103gat and     1    2
+     2     5
+  104   104gat and     1    2
+     3    13
+  105   105gat and     1    2
+    10    14
+  106   106gat and     1    2
+    11    24
+  107   107gat and     1    2
+    15    25
+  108   108gat and     1    2
+     6    35
+  109   109gat or      1    2
+    43    56
+  110   110gat nor     1    2
+    48    57
+  111   111gat and     1    2
+    61    66
+  112   112gat and     1    2
+    68    71
+  113   113gat xor     1    2
+    76    77
+  114   114gat or      1    2
+    84    92
+  115   115gat or      1    2
+    33    62
+  116   116gat or      1    2
+    58    98
+  117   117gat and     2    2
+    63    79
+  118   118fan from   117gat
+  119   119fan from   117gat
+
+  120   120gat and     3    2
+    64    18
+  121   121fan from   120gat
+  122   122fan from   120gat
+  123   123fan from   120gat
+  124   124gat and     1    2
+    93    99
+  125   125gat and     2    2
+    94    50
+  126   126fan from   125gat
+  127   127fan from   125gat
+
+  128   128gat and     3    2
+    95    80
+  129   129fan from   128gat
+  130   130fan from   128gat
+  131   131fan from   128gat
+  132   132gat and     2    2
+    96    19
+  133   133fan from   132gat
+  134   134fan from   132gat
+  135   135gat and     3    2
+    27    51
+  136   136fan from   135gat
+  137   137fan from   135gat
+  138   138fan from   135gat
+  139   139gat and     2    2
+    28     7
+  140   140fan from   139gat
+  141   141fan from   139gat
+  142   142gat and     2    2
+    29    20
+  143   143fan from   142gat
+  144   144fan from   142gat
+  145   145gat and     0    2
+    30    21
+  146   146gat and     3    2
+    38   100
+  147   147fan from   146gat
+  148   148fan from   146gat
+  149   149fan from   146gat
+  150   150gat and     3    2
+    39    52
+  151   151fan from   150gat
+  152   152fan from   150gat
+  153   153fan from   150gat
+  154   154gat and     2    2
+    40    53
+  155   155fan from   154gat
+  156   156fan from   154gat
+  157   157gat and     3    2
+    41    81
+  158   158fan from   157gat
+  159   159fan from   157gat
+  160   160fan from   157gat
+  161   161gat and     2    2
+    22   476
+  162   162fan from   161gat
+  163   163fan from   161gat
+  164   164gat and     3    2
+   480    44
+  165   165fan from   164gat
+  166   166fan from   164gat
+  167   167fan from   164gat
+  168   168gat and     3    2
+    85    59
+  169   169fan from   168gat
+  170   170fan from   168gat
+  171   171fan from   168gat
+  172   172gat and     3    2
+    86   101
+  173   173fan from   172gat
+  174   174fan from   172gat
+  175   175fan from   172gat
+  176   176gat and     2    2
+    87   102
+  177   177fan from   176gat
+  178   178fan from   176gat
+  179   179gat and     3    2
+    88    54
+  180   180fan from   179gat
+  181   181fan from   179gat
+  182   182fan from   179gat
+  183   183gat and     2    2
+    89     8
+  184   184fan from   183gat
+  185   185fan from   183gat
+  186   186gat and     1    2
+    90    45
+
+*************************************
+  187   187gat nor     1    2
+   103   104
+  188   188gat or      1    2
+   105   106
+  477   477gat nand    1    2
+    16   108
+  189   189gat nor     3    2
+    17   109
+  190   190fan from   189gat
+  191   191fan from   189gat
+  192   192fan from   189gat
+  193   193gat nand    1    2
+   110   111
+
+  203   203gat not     9    1
+   113
+  194   194fan from   203gat
+  195   195fan from   203gat
+  196   196fan from   203gat
+  197   197fan from   203gat
+  198   198fan from   203gat
+  199   199fan from   203gat
+  200   200fan from   203gat
+  201   201fan from   203gat
+  202   202fan from   203gat
+
+  204   204gat or      1    2
+   114    37
+  205   205gat and     1    2
+   115    49
+  206   206gat and     3    2
+   116    26
+  207   207fan from   206gat
+  208   208fan from   206gat
+  209   209fan from   206gat
+  210   210gat xor     3    2
+   118   126
+  211   211fan from   210gat
+  212   212fan from   210gat
+  213   213fan from   210gat
+  214   214gat and     3    2
+   119   127
+  215   215fan from   214gat
+  216   216fan from   214gat
+  217   217fan from   214gat
+  218   218gat and     1    2
+   121   136
+  219   219gat xor     1    2
+   122   129
+  220   220gat and     1    2
+   123   130
+  221   221gat and     1    2
+   138   131
+  222   222gat and     6    2
+   133   140
+  223   223gat from   222gat
+  224   224gat from   222gat
+  225   225gat from   222gat
+  226   226gat from   222gat
+  227   227gat from   222gat
+  228   228gat from   222gat
+  229   229gat xor     2    2
+   134   141
+  230   230gat from   229gat
+  231   231gat from   229gat
+  232   232gat and     1    2
+   149   169
+  233   233gat and     1    2
+   153   173
+  234   234gat and     1    2
+   160   180
+  235   235gat xor     3    2
+   162   184
+  236   236gat from   235gat
+  237   237gat from   235gat
+  353   353fan from   235gat
+  238   238gat and     1    2
+   163   185
+
+***************************************
+
+  239   239gat not     1    1
+   187
+  240   240gat or      1    2
+   188   107
+  241   241gat not     1    1
+   477
+  242   242gat not     1    1
+   191
+  243   243gat or      1    2
+   193    75
+  244   244gat and     1    2
+   192    70
+  245   245gat and     1    2
+   196    67
+  246   246gat and     1    2
+   197    72
+  247   247gat nand    2    2
+   198   199
+  248   248fan from   247gat
+  249   249fan from   247gat
+  250   250gat not     0    1
+   200
+  251   251gat and     1    2
+   201   155
+  252   252gat or      2    2
+   205   124
+  253   253fan from   252gat
+  254   254fan from   252gat
+  255   255gat xor     1    2
+   208   211
+  256   256gat and     1    2
+   209   212
+  257   257gat xor     3    2
+   219   137
+  258   258fan from   257gat
+  259   259fan from   257gat
+  260   260fan from   257gat
+  261   261gat or      1    2
+   218   220
+  262   262gat xor     1    2
+   225   158
+  263   263gat xor     1    2
+   215   147
+  264   264gat and     1    2
+   216   148
+  265   265gat and     1    2
+   217   170
+  266   266gat and     1    2
+   227   159
+  267   267gat and     1    2
+   228   181
+  268   268gat xor     3    2
+   238   186
+  269   269fan from   268gat
+  270   270fan from   268gat
+  271   271fan from   268gat
+
+*************************************
+
+  272   272gat nor     2    2
+   240   204
+  273   273fan from   272gat
+  274   274fan from   272gat
+  275   275gat and     1    2
+   242   195
+  276   276gat or      1    2
+   243    47
+  277   277gat or      1    2
+   245    112
+  278   278gat xor     1    2
+   248   178
+  279   279gat not     1    1
+   249
+  280   280gat and     1    2
+   202   253
+  281   281gat and     1    2
+   156   254
+  282   282gat xor     2    2
+   165   255
+  283   283fan from   282gat
+  284   284fan from   282gat
+  285   285gat and     1    2
+   166   207
+  286   286gat and     1    2
+   167   213
+  287   287gat and     1    2
+   223   258
+  288   288gat xor     1    2
+   224   259
+  289   289gat or      3    2
+   221   261
+  290   290fan from   289gat
+  291   291fan from   289gat
+  292   292fan from   289gat
+  293   293gat xor     2    2
+   182   262
+  294   294fan from   293gat
+  295   295fan from   293gat
+  296   296gat xor     3    2
+   171   263
+  297   297fan from   296gat
+  298   298fan from   296gat
+  299   299fan from   296gat
+  300   300gat or      1    2
+   232   264
+  301   301gat or      1    2
+   266   267
+
+***************************************
+
+  302   302gat and     1    2
+    32   273
+  303   303gat or      1    2
+   275   244
+  304   304gat nor     0    2
+   276   177
+  305   305gat or      1    2
+   277   246
+  306   306gat or      1    2
+   280   251
+  307   307gat or      1    2
+   285   256
+  308   308gat xor     3    2
+   288   297
+  309   309fan from   308gat
+  310   310fan from   308gat
+  311   311fan from   308gat
+  312   312gat xor     1    2
+   290   151
+  313   313gat and     1    2
+   291   152
+  314   314gat and     1    2
+   292   175
+  315   315gat and     1    2
+   298   260
+  316   316gat or      4    2
+   300   265
+  317   317fan from   316gat
+  318   318fan from   316gat
+  319   319fan from   316gat
+  320   320fan from   316gat
+  321   321gat and     1    2
+   299   226
+  322   322gat and     2    2
+   294   143
+  323   323fan from   322gat
+  324   324fan from   322gat
+  325   325gat xor     3    2
+   295   144
+  326   326fan from   325gat
+  327   327fan from   325gat
+  328   328fan from   325gat
+  329   329gat or      4    2
+   301   234
+  330   330fan from   329gat
+  331   331fan from   329gat
+  332   332fan from   329gat
+  333   333fan from   329gat
+
+  334   334gat and     2    2
+   302    74
+  335   335fan from   334gat
+  336   336fan from   334gat
+  337   337gat and     1    2
+   303    36
+  338   338gat or      1    2
+   305    78
+  339   339gat or      2    2
+   306   281
+  340   340fan from   339gat
+  341   341fan from   339gat
+  342   342gat or      3    2
+   307   286
+  343   343fan from   342gat
+  344   344fan from   342gat
+  345   345fan from   342gat
+  346   346gat xor     2    2
+   312   174
+  347   347fan from   346gat
+  348   348fan from   346gat
+  349   349gat or      1    2
+   313   233
+  350   350gat or      1    2
+   315   321
+  351   351gat xor     1    2
+   323   236
+   
+     
+  354   354gat xor     0    2
+   278   336
+  355   355gat nand    2    2
+   338    83
+  356   356fan from   355gat
+  357   357fan from   355gat
+  358   358gat and     3    2
+   340   283
+  359   359fan from   358gat
+  360   360fan from   358gat
+  361   361fan from   358gat
+  362   362gat xor     0    2
+   341   284
+  363   363gat or      4    2
+   350   287
+  364   364fan from   363gat
+  365   365fan from   363gat
+  366   366fan from   363gat
+  367   367fan from   363gat
+  368   368gat or      3    2
+   347   230
+  369   369fan from   368gat
+  370   370fan from   368gat
+  371   371fan from   368gat
+  372   372gat or      3    2
+   349   314
+  373   373fan from   372gat
+  374   374fan from   372gat
+  375   375fan from   372gat
+  376   376gat and     3    2
+   348   231
+  377   377fan from   376gat
+  378   378fan from   376gat
+  379   379fan from   376gat
+  380   380gat xor     3    2
+   351   330
+  381   381fan from   380gat
+  382   382fan from   380gat
+  383   383fan from   380gat
+  384   384gat and     1    2
+   331   353
+  385   385gat and     1    2
+   332   324
+  386   386gat and     1    2
+   333   237
+
+
+  387   387gat and     1    2
+   356   190
+  388   388gat not     1    1
+   357
+  389   389gat xor     1    2
+   359   309
+  390   390gat and     1    2
+   360   310
+  391   391gat or      1    2
+   364   239
+  392   392gat and     1    2
+   365   369
+  393   393gat xor     1    2
+   366   370
+  394   394gat and     1    2
+   367   318
+  395   395gat and     1    2
+   371   319
+  396   396gat xor     1    2
+   377   326
+  397   397gat and     1    2
+   374   327
+  398   398gat and     1    2
+   375   378
+  399   399gat and     1    2
+   328   379
+  400   400gat or      1    2
+   385   386
+
+
+  401   401gat and     1    2
+   241   388
+  402   402gat nor     3    2
+   274   387
+  403   403fan from   402gat
+  404   404fan from   402gat
+  405   405fan from   402gat
+  406   406gat or      1    2
+   337   391
+  407   407gat xor     0    2
+   389   343 
+  408   408gat and     1    2
+   361   344
+  409   409gat and     1    2
+   311   345
+  410   410gat xor     2    2
+   393   317 
+  478   478fan from   410gat
+  479   479fan from   410gat
+  411   411gat or      1    2
+   392   394
+  412   412gat xor     3    2
+   373   396 
+  413   413fan from   412gat
+  414   414fan from   412gat
+  415   415fan from   412gat
+  416   416gat or      1    2
+   397   398
+  417   417gat or      3    2
+   384   400
+  418   418fan from   417gat
+  419   419fan from   417gat
+  420   420fan from   417gat
+
+
+  421   421gat or      2    2
+   335   403
+  422   422fan from   421gat
+  423   423fan from   421gat
+  424   424gat and     1    2
+   401   194
+  425   425gat or      1    2
+   408   390
+  426   426gat or      3    2
+   411   395
+  427   427fan from   426gat
+  428   428fan from   426gat
+  429   429fan from   426gat
+  430   430gat or      3    2
+   416   399
+  431   431fan from   430gat
+  432   432fan from   430gat
+  433   433fan from   430gat
+  434   434gat and     1    2
+   270   419
+  435   435gat xor     1    2
+   420   271
+
+  436   436gat and     1    2
+   279   422
+  437   437gat not     1    1
+   423
+  438   438gat or      2    2
+   425   409
+  439   439fan from   438gat 
+  440   440fan from   438gat
+  441   441gat xor     1    2
+   428   414
+  442   442gat and     1    2
+   429   415
+  443   443gat xor     1    2
+   382   432
+  444   444gat and     1    2
+   383   433
+
+  445   445gat and     1    2
+   437   320
+  446   446gat xor     0    2
+   478   439
+  447   447gat and     3    2
+   479   440
+  448   448fan from   447gat
+  449   449fan from   447gat
+  450   450fan from   447gat
+
+  451   451gat or      2    2
+   436   445
+  452   452fan from   451gat
+  453   453fan from   451gat
+  454   454gat xor     0    2
+   448   441
+  455   455gat and     1    2
+   449   427
+  456   456gat and     1    2
+   450   413
+
+  457   457gat or      1    2
+   455   456
+
+  458   458gat or      3    2
+   442   457
+  459   459fan from   458gat
+  460   460fan from   458gat
+  461   461fan from   458gat
+
+  462   462gat xor     0    2
+   459   443
+  463   463gat and     1    2
+   460   431
+  464   464gat and     1    2
+   461   381
+
+  465   465gat or      1    2
+   463   464
+  466   466gat or      3    2
+   465   444
+  467   467fan from   466gat
+  468   468fan from   466gat
+  469   469fan from   466gat
+
+  470   470gat xor     0    2
+   467   435
+  471   471gat and     1    2
+   468   269
+  472   472gat and     1    2
+   469   418
+
+  473   473gat or      1    2
+   471   472
+  474   474gat or      1    2
+   473   434
+  475   475gat or      0    2
+   474   424
+
+
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+

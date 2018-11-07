@@ -13,10 +13,6 @@ int main(){
 	double Seconds;
 	LARGE_INTEGER StartTime, EndTime, Freq;
 
-	SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
-	QueryPerformanceCounter(&StartTime);
-	QueryPerformanceFrequency(&Freq);
-
 	char NetName[] = "AXA1";//网表文件名没有不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
 
 	char Netpath[100];
@@ -35,17 +31,21 @@ int main(){
 
 	printf("gate relability:%2f\n", Rg);
 
+	SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+	QueryPerformanceCounter(&StartTime);
+	QueryPerformanceFrequency(&Freq);
+
 	MCSimulation *mcsim;
 	mcsim = new MCSimulation(circuitnet);
 
 	float retcm = mcsim->Combination_CircuitTest();
 	printf("combincircuit relability:%f\n", retcm);
 
-	float retap = mcsim->Approximate_CircuitTest();
-	printf("approxcircuit relability:%f\n", retap);
+	//float retap = mcsim->Approximate_CircuitTest();
+	//printf("approxcircuit relability:%f\n", retap);
 
-	
-	
+	//float retmul = mcsim->Mul_CircuitTest();
+	//printf("approxcircuit relability:%f\n", retmul);
 
 
 	QueryPerformanceCounter(&EndTime);

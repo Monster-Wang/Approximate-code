@@ -32,7 +32,7 @@ NetlistToMap::~NetlistToMap()
 bool NetlistToMap::ParseNetlist(char *filename)
 {
 	FILE *fp;
-	char Line[122], Word[122], *ptr, *pend;
+	char Line[122], Word[50], *ptr, *pend;
 	bool Loop, Jump, OverIn, OverDef;
 	int Place, Fir, i,k=0;
 	int Temp, Child, Father;
@@ -100,7 +100,7 @@ bool NetlistToMap::ParseNetlist(char *filename)
 							fclose(fp);
 							return false; // 超过整个模块的最大门数
 						}
-						memset(&m_TotalModule->Gates[Temp], 0, sizeof(Struct_Gate));
+						//memset(&m_TotalModule->Gates[Temp], 0, sizeof(Struct_Gate));
 						m_TotalModule->NodeNum++;
                         m_TotalModule->GateNum++;
 						m_TotalModule->Gates[Temp].Tag = Fir;
@@ -250,6 +250,7 @@ bool NetlistToMap::ParseNetlist(char *filename)
 			m_TotalModule->OutputNum = Fir;
 		}
 	}
+
 	//test
  	/*printf("PI number is%d\n", m_TotalModule->InputNum);
 	for(i=0;i<(m_TotalModule->InputNum);i++)

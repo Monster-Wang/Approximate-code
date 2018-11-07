@@ -133,7 +133,7 @@
    99    99gat and     1   2
     48    52
    100    100gat xor    2   2
-    48    53
+    49    53
    101    101fan from   100gat
    102    102fan from   100gat
    103    103gat xor     1   2
@@ -152,7 +152,7 @@
     65     71
 
    110    110gat and    2   2
-    69     71
+    69     77
    111    111fan from   110gat
    112    112fan from   110gat
 

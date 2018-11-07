@@ -24,6 +24,8 @@ public:
 	vector with the gate reliability is 1*/
 	void fcValueCal(Struct_Module *Module);
 
+	vector <int> IOPinGenerate(Struct_Module *Module);
+
 };
 
 #endif

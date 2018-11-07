@@ -10,7 +10,7 @@ typedef struct
 {
 	int Col;
 	int Row;
-	float Matrix[MAX_MATRIX_SQUARE][MAX_MATRIX_SQUARE];
+	float Matrix[1][MAX_MATRIX_SQUARE];
 
 }Struct_Matrix;
 
@@ -27,11 +27,11 @@ public:
 	//
 	bool MatrixTensor(Struct_Matrix *src, Struct_Matrix *dest);
 	//
-	void StoreMatrix(char *moduleName, Struct_Matrix *src);
+	void StoreMatrix(char *netName, Struct_Matrix *src);
 	//
 	void MatrixPrint(Struct_Matrix *src);
 	
-	void ClearFile(char *moduleName);
+	void ClearFile(char *netName);
 
 };
 
