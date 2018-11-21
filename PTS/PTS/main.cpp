@@ -28,7 +28,6 @@ int main(){
 	//mul8_332
 
 	char NetName[] = "add8_006";  //网表文件名没有不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
-	printf("circuit: %s\n", NetName);
 	char Netpath[100];
 	strcpy(Netpath, "circuits\\");
 	strcat(Netpath, NetName);
@@ -43,6 +42,7 @@ int main(){
 		system("pause");
 	}
 
+	
 	CircuitProcess *cp;
 	cp = new CircuitProcess(circuitnet);
 
@@ -50,15 +50,19 @@ int main(){
 	QueryPerformanceCounter(&StartTime);
 	QueryPerformanceFrequency(&Freq);
 
-	//float ret = cp->ReliabilityCal();
+	float ret = cp->ReliabilityCal();
 	//float ret = cp->AXA1test();
-	float ret = cp->add8_006test();
-	printf("The reliability of gates: %.2f\n", Rg);
-	printf("The reliability of circuit: %.6f\n", ret);
+	//float ret = cp->add8_006test();
+	//float ret = cp->add8_Q5test();
+	//float ret = cp->add8_Q4test();
 
 	QueryPerformanceCounter(&EndTime);
 	Seconds = ((double)EndTime.QuadPart - (double)StartTime.QuadPart)
 		/ (double)(Freq.QuadPart);
+
+	printf("circuit: %s\n", NetName);
+	printf("The reliability of gates: %.2f\n", Rg);
+	printf("The reliability of circuit: %.6f\n", ret);
 	printf("Need Time: %.4fs\n", Seconds);
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));

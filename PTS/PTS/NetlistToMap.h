@@ -33,30 +33,30 @@ using namespace std;
 
 typedef struct
 {
+	char Name[10];						//门的名称
 	int Input[MAX_INPUT_TO_GATE];		//指向输入端
 	int Output[MAX_OUTPUT_TO_GATE];		//指向输出端
 	int	Type;							//节点类型
 	int Tag;							//节点编号
 	int InputNum;
 	int OutputNum;			            //统计输入、输出端口数
-	char Name[10];						//门的名称
-	float Probability[2];               //节点信号概率{p0，p1}
 	int inLevel;
+	float sProbability;               //节点信号概率P{s=1}
 }Struct_Gate;
 
 
 typedef struct
 {
+	char Name[30];                          //网表文件名
 	int Input_head[MAX_INPUT_TO_MODULE];	//每个模块的输入链表
 	int Output_head[MAX_OUTPUT_TO_MODULE];	//每个模块的输出链表
 	int NodeNum;							//模块包含的节点数
 	int GateNum;                            //模块包含的门数
 	int InputNum;
 	int OutputNum;
-	Struct_Gate Gates[MAX_GATES_IN_MODULE]; //网表包含门信息,数组索引号就是门输出节点编号
-	char Name[30];                          //网表文件名
 	int Level;							    //每个模块包含的层次数
 	vector<int> LevelGate[MAX_LEVELNUM];    //一维表示层号，二维表示本层的门号
+	Struct_Gate Gates[MAX_GATES_IN_MODULE]; //网表包含门信息,数组索引号就是门输出节点编号
 }Struct_Module;
 
 

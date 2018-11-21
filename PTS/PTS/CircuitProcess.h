@@ -29,18 +29,29 @@ public:
 	/*if rnd = -1, the input vector will be generated randomly*/
 	/*if rnd >=0, the input vector will be seted the value of rnd*/
 	void InputInit(Struct_Module *Module, vector<int>io, int rnd);
-	float ReliabilityCal();
-	float AXA1test();
+
 	vector<int> IOPinGenerate(Struct_Module *Module);
 	vector<recvg> RecvgDectect(Struct_Module *md);
-	void PathSearch(vector<int> ph, int start, Struct_Module *md);
-	float add8_006test();
+	void PathSearch(Struct_Module *md, vector<int> ph, int start);
+	void RecvgRecal(Struct_Module *md, vector<recvg> rev);
+	void GatePGMcal(Struct_Module *Module, int GateNode);
 	
+	void OutputPathfanDectect(Struct_Module *md, int outtag);
+	vector<vector <int>> GetDependentoutput(Struct_Module *md);
+
+	float ReliabilityCal();
+	float AXA1test();
+	float add8_006test();
+	float add8_Q5test();
+	float add8_Q4test();
+
 private:
 	Struct_Module *m_Module;
 	vector<vector<int>> allPath;
 	vector<recvg> RecvgCircuit;
 	vector<int> iotemp;
+	vector<vector<int>> FanofOutpath;
+	vector<int> FanNode;
 };
 
 #endif
