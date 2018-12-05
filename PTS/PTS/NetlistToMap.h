@@ -33,6 +33,7 @@ using namespace std;
 
 typedef struct
 {
+	bool NodeValue[2];
 	char Name[10];						//门的名称
 	int Input[MAX_INPUT_TO_GATE];		//指向输入端
 	int Output[MAX_OUTPUT_TO_GATE];		//指向输出端

@@ -2,6 +2,8 @@
 #define _CIRCUITPROCESS__H
 
 #include "NetlistToMap.h"
+#include "Matrix.h"
+#include <set>
 
 #define Rg  0.99
 
@@ -17,6 +19,13 @@ struct recvg{
 	int cvg;
 	vector<int>path1;
 	vector<int>path2;
+};
+
+struct subCircuit{
+	int primeFan;
+	vector<int> fans;
+	vector<int> outputs;
+	vector<vector<int>> cir;
 };
 
 class CircuitProcess{
@@ -37,7 +46,10 @@ public:
 	void GatePGMcal(Struct_Module *Module, int GateNode);
 	
 	void OutputPathfanDectect(Struct_Module *md, int outtag);
-	vector<vector <int>> GetDependentoutput(Struct_Module *md);
+	vector<subCircuit> GetDependentoutput(Struct_Module *md);
+	Struct_Matrix fantest(Struct_Module* md, subCircuit sC);
+
+	vector<int> fcValueGenerate(Struct_Module* Module);
 
 	float ReliabilityCal();
 	float AXA1test();
@@ -50,8 +62,9 @@ private:
 	vector<vector<int>> allPath;
 	vector<recvg> RecvgCircuit;
 	vector<int> iotemp;
-	vector<vector<int>> FanofOutpath;
-	vector<int> FanNode;
+	vector<subCircuit> FanofOutpath;
+	set<int> FanNode;
+	vector<int> FCValue;
 };
 
 #endif

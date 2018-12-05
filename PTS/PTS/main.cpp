@@ -27,7 +27,7 @@ int main(){
 	//mul8_024
 	//mul8_332
 
-	char NetName[] = "add8_006";  //网表文件名没有不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
+	char NetName[] = "add8_ACA_I_N8_Q5";  //网表文件名没有不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
 	char Netpath[100];
 	strcpy(Netpath, "circuits\\");
 	strcat(Netpath, NetName);
@@ -66,8 +66,8 @@ int main(){
 	printf("Need Time: %.4fs\n", Seconds);
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-	memory = pmc.WorkingSetSize / 1024.00;
-	printf("Need Memory: %.1fKB\n", memory);
+	memory = pmc.WorkingSetSize / 1024.0 / 1024.0;
+	printf("Need Memory: %.3fMb\n", memory);
 	system("pause");
 	return 0;
 }

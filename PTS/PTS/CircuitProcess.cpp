@@ -16,10 +16,15 @@ CircuitProcess::CircuitProcess(NetlistToMap *map){
 	DivideByGate(m_Module);
 	//输入输出端子初始化
 	iotemp = IOPinGenerate(m_Module);
+
+	//generate the function value of the circuit
+	//FCValue = fcValueGenerate(m_Module);
+
 	//detect the reconvert circuit
-	RecvgCircuit = RecvgDectect(m_Module);
+	//RecvgCircuit = RecvgDectect(m_Module);
 
 	FanofOutpath = GetDependentoutput(m_Module);
+
 }
 
 
@@ -30,49 +35,70 @@ float CircuitProcess::ReliabilityCal(){
 	Struct_Matrix temp, temp1;
 
 	float ret = 0.0f;
+	
+	int loop = (int)pow(2, Module->InputNum);
+	for (int m = 0; m < loop; m++){
 
-	for (int m = 0; m < (int)pow(2, Module->InputNum); m++){
 		//the temp matrix initial
 		temp.Col = temp.Row = 1;
 		temp.Matrix[0][0] = 1;
 		temp1.Row = 1; temp1.Col = 2;
 
 		//init the primary input 
-		InputInit(Module,iotemp, m);
-		
-		int acValue = 0,a = 0, b = 0;
+		InputInit(Module, iotemp, m);
 
-		for (int i = iotemp.size() - m_Module->OutputNum - 1; i > 0; i -= 2){
-			a |= ((int)m_Module->Gates[iotemp[i]].sProbability) << ((i / 2) - 1);
-			b |= ((int)m_Module->Gates[iotemp[i - 1]].sProbability) << ((i / 2) - 1);
+		int acValue = 0, a = 0, b = 0;
+
+		for (int i = iotemp.size() - Module->OutputNum - 1; i > 0; i -= 2){
+			a |= ((int)Module->Gates[iotemp[i]].sProbability) << ((i / 2) - 1);
+			b |= ((int)Module->Gates[iotemp[i - 1]].sProbability) << ((i / 2) - 1);
 		}
-		iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)m_Module->Gates[iotemp[0]].sProbability);
+		iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)Module->Gates[iotemp[0]].sProbability);
 
 		//node pribability calculate
 		for (int i = 1; i < Module->Level; i++){
-			vector <int>::iterator iter = Module->LevelGate[i].begin();
-			for (; iter != Module->LevelGate[i].end(); iter++){
+			for (int j = 0; j < Module->LevelGate[i].size(); j++){
 				//根据逻辑门的编号计算逻辑门的PGM，即输出端信号概率
-				GatePGMcal(Module, *iter);
+				GatePGMcal(Module, Module->LevelGate[i][j]);
 			}
 		}
+
 		//张量积运算
-		for (int j = iotemp.size() - Module->OutputNum; j < iotemp.size(); j++){
-			temp1.Matrix[0][0] = 1.0 - Module->Gates[iotemp[j]].sProbability;
+		/*for (int j = iotemp.size() - Module->OutputNum; j < iotemp.size()-6; j++){
 			temp1.Matrix[0][1] = Module->Gates[iotemp[j]].sProbability;
+			temp1.Matrix[0][0] = 1.0 - temp1.Matrix[0][1];
 			ma->MatrixTensor(&temp1, &temp);
 		}
-		//找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和
-		int fcValue = 0; float accumP = 0; 
-		for (int i = 1; i < temp.Col; i++){
-			if (temp.Matrix[0][i]>temp.Matrix[0][fcValue])
-				fcValue = i;
+		temp1 = fantest(Module, FanofOutpath[0]);
+		ma->MatrixTensor(&temp1, &temp);*/
+
+		for (int j = 0; j < FanofOutpath.size(); j++){
+			if (FanofOutpath[j].outputs.size() == 1){
+				temp1.Matrix[0][1] = Module->Gates[FanofOutpath[j].outputs[0]].sProbability;
+				temp1.Matrix[0][0] = 1.0 - temp1.Matrix[0][1];
+				ma->MatrixTensor(&temp1, &temp);
+			}
+			else{
+				temp1 = fantest(Module, FanofOutpath[j]);
+				ma->MatrixTensor(&temp1, &temp);
+			}
 		}
 
-		for (int i = min(acValue, fcValue); i <= max(acValue, fcValue); i++)
+
+		//找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和
+		int fcValue = 0; float accumP = 0;
+		for (int i = 1; i < temp.Col; i++){
+			if (temp.Matrix[0][i] > temp.Matrix[0][fcValue])
+				fcValue = i;
+		}
+		//fcValue = FCValue[m];
+
+		int toplimit = max(acValue, fcValue);
+		for (int i = min(acValue, fcValue); i <= toplimit; i++)
 			accumP += temp.Matrix[0][i];
 		//cout << acValue << "   " << fcValue << endl;
 		ret += accumP;
+
 	}
 	return (ret / ((float)pow(2, Module->InputNum)));
 }
@@ -602,7 +628,7 @@ float CircuitProcess::add8_006test(){
 		ntmp = 0;
 		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
 		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], ntmp, Module->Gates[86].sProbability, Rg);
+		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
 
 		for (int ii = 0; ii < temp1.Col; ii++){
 			float pmul = 1.0;
@@ -619,7 +645,7 @@ float CircuitProcess::add8_006test(){
 		ntmp = 1;
 		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
 		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], ntmp, Module->Gates[86].sProbability, Rg);
+		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
 
 		for (int ii = 0; ii < temp1.Col; ii++){
 			float pmul = 1.0;
@@ -645,7 +671,7 @@ float CircuitProcess::add8_006test(){
 		ntmp = 0;
 		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
 		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], ntmp, Module->Gates[86].sProbability, Rg);
+		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
 
 		for (int ii = 0; ii < temp1.Col; ii++){
 			float pmul = 1.0;
@@ -662,7 +688,7 @@ float CircuitProcess::add8_006test(){
 		ntmp = 1;
 		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
 		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], ntmp, Module->Gates[86].sProbability, Rg);
+		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
 
 		for (int ii = 0; ii < temp1.Col; ii++){
 			float pmul = 1.0;
@@ -874,10 +900,26 @@ void CircuitProcess::DivideByGate(Struct_Module *Module)
 }
 
 
+void CircuitProcess::PathSearch(Struct_Module *md, vector<int> ph, int start){
+
+	ph.push_back(start);
+
+	if (0 == md->Gates[start].OutputNum)//end the search
+		allPath.push_back(ph);
+	else if (1 == md->Gates[start].OutputNum)
+		PathSearch(md, ph, (md->Gates[start].Output[0]));
+	else if (2 <= md->Gates[start].OutputNum){
+		int temp = start;
+		for (int i = 0; i < md->Gates[start].OutputNum; i++)
+			PathSearch(md, ph, md->Gates[start].Output[i]);
+	}
+}
+
+
 vector<recvg> CircuitProcess::RecvgDectect(Struct_Module *md){
 
 	vector<recvg> rv;
-  
+
 	for (int i = 1; i < md->Level; i++){
 		vector<int>::iterator iter = md->LevelGate[i].begin();
 		for (; iter != md->LevelGate[i].end(); iter++){
@@ -912,7 +954,7 @@ vector<recvg> CircuitProcess::RecvgDectect(Struct_Module *md){
 
 										//check repeated
 										bool isRepeated = false;
-										for (int k = 0; k < rv.size(); k++){	
+										for (int k = 0; k < rv.size(); k++){
 											isRepeated = false;
 											cnt1 = 0; cnt2 = 0;
 											if (path1[0] == rv[k].fan && path1[ptr1] == rv[k].cvg){
@@ -930,7 +972,7 @@ vector<recvg> CircuitProcess::RecvgDectect(Struct_Module *md){
 											if (cnt1 == ptr1 && cnt2 == ptr2){
 												isRepeated = true;
 												break;
-											}	
+											}
 										}
 										if (!isRepeated)
 											rv.push_back(tmp);
@@ -946,22 +988,6 @@ vector<recvg> CircuitProcess::RecvgDectect(Struct_Module *md){
 		}
 	}
 	return rv;
-}
-
-
-void CircuitProcess::PathSearch(Struct_Module *md, vector<int> ph, int start){
-
-	ph.push_back(start);
-
-	if (0 == md->Gates[start].OutputNum)//end the search
-		allPath.push_back(ph);
-	else if (1 == md->Gates[start].OutputNum)
-		PathSearch(md, ph, (md->Gates[start].Output[0]));
-	else if (2 <= md->Gates[start].OutputNum){
-		int temp = start;
-		for (int i = 0; i < md->Gates[start].OutputNum; i++)
-			PathSearch(md, ph, md->Gates[start].Output[i]);
-	}
 }
 
 
@@ -1078,10 +1104,8 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 		}
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_OR:
@@ -1094,10 +1118,8 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 		}
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_NAND:
@@ -1110,10 +1132,8 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 		}
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_NOR:
@@ -1126,10 +1146,8 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 		}
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_XOR:
@@ -1142,23 +1160,20 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 		}
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_NOT:
 		Lg->NOTFunction(*src, x1, Rg);
 		//put the probability value for every fan cone of the gate
 		if (Module->Gates[GateNode].OutputNum > 1){
-			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++){
-				for (int k = 0; k < 2; k++)
-					Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
-			}
+			for (int j = 0; j < Module->Gates[GateNode].OutputNum; j++)
+				Module->Gates[Module->Gates[GateNode].Output[j]].sProbability = *src;
 		};
 		break;
 	case TYPE_FAN:
+		//*src = Module->Gates[Module->Gates[GateNode].Input[0]].sProbability;
 		break;
 	default:
 		cout << "The logic gate type not found!" << endl;
@@ -1167,38 +1182,122 @@ void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
 }
 
 
-vector<vector<int>> CircuitProcess::GetDependentoutput(Struct_Module *md){
-	vector<vector<int>> ret;
-	int outnum = 0;
+vector<subCircuit> CircuitProcess::GetDependentoutput(Struct_Module *md){
+	
+	vector<set<int>> ret;
+	vector<subCircuit> ssC;
 
-	for (int j = iotemp.size() - md->OutputNum; j < iotemp.size(); j++){
+	vector<int> outIO;
+	outIO.insert(outIO.begin(), iotemp.end() - md->OutputNum, iotemp.end());
+
+	for (int i = 0; i < outIO.size(); i++){
 		FanNode.clear();
-
-		OutputPathfanDectect(md, iotemp[j]);
+		OutputPathfanDectect(md, outIO[i]);
 		ret.push_back(FanNode);
 	}
 
-	vector<vector<int>>::iterator itr = ret.begin();
-	for (; itr != ret.end()-1; itr++){
-		int rptcnt = 0;
-		if ((*itr).size()){
-			vector<vector<int>>::iterator it = itr + 1;
-			for (; it != ret.end(); it++){
-				if (*itr == *it)
-					rptcnt++;
+	for (int i=ret.size()-1; i >= 0; i--){
+		subCircuit sc;
+		memset(&sc,0,sizeof(sc));
+
+		if (ret[i].size()){
+			set<int>::iterator it = ret[i].begin();
+			for (; it != ret[i].end(); it++)
+				sc.fans.push_back(*it);
+			sc.outputs.push_back(outIO[i]);
+			sc.primeFan = *(ret[i].begin());
+
+			int ptr = 0;
+			for (int j = i - 1; j >= 0; j--){
+				if (ret[j].size()){
+					set<int>::iterator it1 = ret[j].begin();
+					it = ret[i].begin();
+					bool isContain = true;
+
+					while (it1 != ret[j].end()){
+						if (ret[j].size() > ret[i].size())
+							break;
+
+						if (*it != *it1){
+							isContain = false;
+							break;
+						}
+						it++; it1++;
+					}
+					if (isContain){
+						sc.outputs.push_back(outIO[j]);
+						ptr++;
+					}
+				}
 			}
+			if (sc.outputs.size() > 1){
+				map<int, int> mapout;
+				for (int j = 0; j < sc.outputs.size(); j++){
+					int pp = 0;
+					for (int k = 0; k < outIO.size(); k++){
+						if (outIO[k] == sc.outputs[j]){
+							pp = k;
+							break;
+						}	
+					}
+					mapout.insert(map<int, int>::value_type(pp, sc.outputs[j]));
+				}
+				sc.outputs.clear();
+				for (map<int, int>::iterator mapit = mapout.begin(); mapit != mapout.end(); mapit++)
+					sc.outputs.push_back((*mapit).second);
+				ssC.push_back(sc);
+				i -= ptr;
+			}			
 		}
 		else{
-			outnum++;
+			sc.outputs.push_back(outIO[i]);
+			ssC.push_back(sc);
 		}
-		if (rptcnt){
-			outnum++;
-			itr += rptcnt - 1;
-		}	
 	}
 
 
-	return ret;
+	vector<int> sPath;
+	vector<subCircuit>::iterator itsc = ssC.begin();
+	for (; itsc != ssC.end(); itsc++){
+		if ((*itsc).outputs.size() > 1){
+			vector<int> *subcir = new vector<int>[md->Level];
+			allPath.clear();
+			PathSearch(md, sPath, (*itsc).primeFan);//search all the path of a fan node 
+
+			vector<vector<int>>::iterator it1 = allPath.begin();
+			for (; it1 != allPath.end(); it1++){
+				for (vector<int>::iterator it2 = (*it1).begin(); it2 != (*it1).end(); it2++){
+					int lvl = md->Gates[*it2].inLevel;
+					vector<int>::iterator item = find(subcir[lvl].begin(), subcir[lvl].end(), *it2);
+
+					if (item == subcir[lvl].end())
+						subcir[lvl].push_back(*it2);
+				}
+			}
+			for (int i = 0; i < md->Level; i++){
+				if (subcir[i].size())
+					(*itsc).cir.push_back(subcir[i]);
+			}
+		}
+	}
+
+	map<int, subCircuit> scmap;
+	for (int i = 0; i < ssC.size(); i++){
+		int j = 0;
+		for (j = 0; j < outIO.size(); j++){
+			if (outIO[j] == ssC[i].outputs[0])
+				break;
+		}
+		scmap.insert(map<int, subCircuit>::value_type(j, ssC[i]));
+	}
+
+	ssC.clear();
+	map<int, subCircuit>::iterator it = scmap.begin();
+	for (; it != scmap.end(); it++){
+		ssC.push_back((*it).second);
+	}
+
+	return ssC;
 }
 
 
@@ -1211,7 +1310,7 @@ void CircuitProcess::OutputPathfanDectect(Struct_Module *md, int outtag){
 		}
 		else{
 			if (TYPE_FAN == md->Gates[outtag].Type){
-				vector<int>::iterator it = FanNode.begin();
+				/*vector<int>::iterator it = FanNode.begin();
 				bool nodeIsExist = false;
 				for (; it != FanNode.end(); it++){
 					if (*it == md->Gates[outtag].Input[0]){
@@ -1220,7 +1319,8 @@ void CircuitProcess::OutputPathfanDectect(Struct_Module *md, int outtag){
 					}	
 				}
 				if (!nodeIsExist)
-					FanNode.push_back(md->Gates[outtag].Input[0]);
+					FanNode.push_back(md->Gates[outtag].Input[0]);*/
+				FanNode.insert(md->Gates[outtag].Input[0]);
 			}
 			OutputPathfanDectect(md, md->Gates[outtag].Input[i]);
 		}
@@ -1228,3 +1328,198 @@ void CircuitProcess::OutputPathfanDectect(Struct_Module *md, int outtag){
 }
 
 
+Struct_Matrix CircuitProcess::fantest(Struct_Module *md, subCircuit sC){
+
+
+	vector<int>fnode = sC.fans;
+	int *fantemp = new int[fnode.size()];
+	float *sptemp = new float[fnode.size()];
+
+	vector<int> outnode = sC.outputs;
+	Struct_Matrix temp1;
+
+	temp1.Row = 1; temp1.Col = (int)pow(2, outnode.size());
+	for (int i = 0; i < temp1.Col; i++)
+		temp1.Matrix[0][i] = 0.0;
+
+	vector<vector<int>> subcircuit = sC.cir;
+
+	for (int k = 0; k < (int)pow(2, fnode.size());k++){
+		for (int i = 0; i < fnode.size(); i++){
+			fantemp[fnode.size() - i - 1] = (k >> i) & 0x1;
+			sptemp[i] = 0.0;
+		}
+		//for (int i = 0; i < fnode.size(); i++)
+		//	cout << fantemp[i] << "  "; cout << endl;
+
+		for (int i = 0; i < subcircuit.size(); i++){
+			for (int k = 0; k < subcircuit[i].size(); k++){
+
+				GatePGMcal(md, subcircuit[i][k]);//calculating signal probability of the node
+				//if the node is fan father,that reset the signal probability of the node ;
+				for (int j = 0; j < fnode.size(); j++){
+					if (subcircuit[i][k] == fnode[j]){
+						sptemp[j] = md->Gates[subcircuit[i][k]].sProbability;
+						//cout << sptemp[j] <<endl;	
+						md->Gates[subcircuit[i][k]].sProbability = fantemp[j];
+						for (int jj = 0; jj < md->Gates[subcircuit[i][k]].OutputNum; jj++)
+							md->Gates[md->Gates[subcircuit[i][k]].Output[jj]].sProbability = md->Gates[subcircuit[i][k]].sProbability;
+						break;
+					}
+				}
+			}
+		}
+		//calculate the part of output node combination probability 
+		for (int ii = 0; ii < temp1.Col; ii++){
+			float pmul = 1.0;
+			for (int jj = 0; jj < outnode.size(); jj++){
+				if ((ii >> jj) & 0x1)
+					pmul *= md->Gates[outnode[jj]].sProbability;
+				else
+					pmul *= 1.0 - md->Gates[outnode[jj]].sProbability;
+			}
+			for (int jj = 0; jj < fnode.size(); jj++){
+				if (fantemp[jj])
+					pmul *= sptemp[jj];
+				else
+					pmul *= 1.0 - sptemp[jj];
+			}
+			temp1.Matrix[0][ii] += pmul;
+		}
+	}
+	return temp1;
+}
+
+
+vector<int> CircuitProcess::fcValueGenerate(Struct_Module* Module){
+	
+	vector<int> ret;
+
+	for (int i = 0; i < (int)pow(2, Module->InputNum); i++){
+
+		//init the primary input 
+		long ipt = i;
+		for (int ii = 0; ii < Module->InputNum; ii++){
+			if ((ipt >> ii & 1))
+				Module->Gates[Module->Input_head[ii]].NodeValue[1] = 1;
+			else
+				Module->Gates[Module->Input_head[ii]].NodeValue[1] = 0;
+
+			if (Module->Gates[Module->Input_head[ii]].OutputNum > 1){
+				for (int j = 0; j < Module->Gates[Module->Input_head[ii]].OutputNum; j++){
+					Module->Gates[Module->Gates[Module->Input_head[ii]].Output[j]].NodeValue[1]
+						= Module->Gates[Module->Input_head[ii]].NodeValue[1];
+				}
+			}
+		}
+		
+		for (int m = 1; m < Module->Level; m++){
+			vector<int>::iterator iter = Module->LevelGate[m].begin();
+			for (; iter != Module->LevelGate[m].end(); iter++){
+				bool x1, x2;
+				x1 = Module->Gates[Module->Gates[*iter].Input[0]].NodeValue[1];
+				x2 = Module->Gates[Module->Gates[*iter].Input[1]].NodeValue[1];
+
+				switch (Module->Gates[*iter].Type){
+				case TYPE_AND:
+					Module->Gates[*iter].NodeValue[1] = x1 & x2;
+
+					//the logic gate's inputs more then two 
+					if (Module->Gates[*iter].InputNum > 2){
+						for (int p = 2; p < Module->Gates[*iter].InputNum; p++){
+							x1 = Module->Gates[Module->Gates[*iter].Input[p]].NodeValue[1];
+							Module->Gates[*iter].NodeValue[1] = x1 & Module->Gates[*iter].NodeValue[1];
+						}
+					}
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_OR:
+					Module->Gates[*iter].NodeValue[1] = x1 | x2;
+					//the logic gate's inputs more then two 
+					if (Module->Gates[*iter].InputNum > 2){
+						for (int p = 2; p < Module->Gates[*iter].InputNum; p++){
+							x1 = Module->Gates[Module->Gates[*iter].Input[p]].NodeValue[1];
+							Module->Gates[*iter].NodeValue[1] = x1 | Module->Gates[*iter].NodeValue[1];
+						}
+					}
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_NAND:
+					Module->Gates[*iter].NodeValue[1] = !(x1 & x2);
+					//the logic gate's inputs more then two 
+					if (Module->Gates[*iter].InputNum > 2){
+						for (int p = 2; p < Module->Gates[*iter].InputNum; p++){
+							x1 = Module->Gates[Module->Gates[*iter].Input[p]].NodeValue[1];
+							Module->Gates[*iter].NodeValue[1] = !(x1 & Module->Gates[*iter].NodeValue[1]);
+						}
+					}
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_NOR:
+					Module->Gates[*iter].NodeValue[1] = !(x1 | x2);
+					//the logic gate's inputs more then two 
+					if (Module->Gates[*iter].InputNum > 2){
+						for (int p = 2; p < Module->Gates[*iter].InputNum; p++){
+							x1 = Module->Gates[Module->Gates[*iter].Input[p]].NodeValue[1];
+							Module->Gates[*iter].NodeValue[1] = !(x1 | Module->Gates[*iter].NodeValue[1]);
+						}
+					}
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_XOR:
+					Module->Gates[*iter].NodeValue[1] = x1 ^ x2;
+					//the logic gate's inputs more then two 
+					if (Module->Gates[*iter].InputNum > 2){
+						for (int p = 2; p < Module->Gates[*iter].InputNum; p++){
+							x1 = Module->Gates[Module->Gates[*iter].Input[p]].NodeValue[1];
+							Module->Gates[*iter].NodeValue[1] = x1 ^ Module->Gates[*iter].NodeValue[1];
+						}
+					}
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_NOT:
+					Module->Gates[*iter].NodeValue[1] = !x1;
+					//put the probability value for every fan cone of the gate
+					if (Module->Gates[*iter].OutputNum > 1){
+						for (int j = 0; j < Module->Gates[*iter].OutputNum; j++){
+							Module->Gates[Module->Gates[*iter].Output[j]].NodeValue[1] = Module->Gates[*iter].NodeValue[1];
+						}
+					}; break;
+				case TYPE_FAN:
+					break;
+				default:
+					printf("the gate type not found, please check the result of 'DivideByGate()' function is right!");
+					break;
+				}
+			}
+		}
+
+		int fcvalue = 0;
+		for (int j = iotemp.size() - m_Module->OutputNum; j < iotemp.size(); j++){
+			fcvalue |= m_Module->Gates[iotemp[j]].NodeValue[1] << (j - (iotemp.size() - m_Module->OutputNum));
+		}
+		ret.push_back(fcvalue);
+	}
+
+	return ret;
+}
