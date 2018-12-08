@@ -1,4 +1,4 @@
-#ifndef _CIRCUITPROCESS__H
+﻿#ifndef _CIRCUITPROCESS__H
 #define _CIRCUITPROCESS__H
 
 #include "NetlistToMap.h"
@@ -47,15 +47,11 @@ public:
 	
 	void OutputPathfanDectect(Struct_Module *md, int outtag);
 	vector<subCircuit> GetDependentoutput(Struct_Module *md);
-	Struct_Matrix fantest(Struct_Module* md, subCircuit sC);
-
-	vector<int> fcValueGenerate(Struct_Module* Module);
+	Struct_Matrix fantest(Struct_Module* md, subCircuit& sC);
 
 	float ReliabilityCal();
-	float AXA1test();
 	float add8_006test();
 	float add8_Q5test();
-	float add8_Q4test();
 
 private:
 	Struct_Module *m_Module;
@@ -64,7 +60,6 @@ private:
 	vector<int> iotemp;
 	vector<subCircuit> FanofOutpath;
 	set<int> FanNode;
-	vector<int> FCValue;
 };
 
 #endif

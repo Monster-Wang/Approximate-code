@@ -1,8 +1,13 @@
-#include "LogicFunction.h"
+﻿#include "LogicFunction.h"
 #include <stdlib.h>
 #include <math.h>
 
 LogicFunction::LogicFunction(){
+
+	;
+}
+
+LogicFunction::~LogicFunction(){
 
 	;
 }

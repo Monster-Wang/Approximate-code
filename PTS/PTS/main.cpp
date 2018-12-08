@@ -1,4 +1,4 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include "psapi.h"
 #include <iostream>
 #include "NetlistToMap.h"
@@ -27,7 +27,7 @@ int main(){
 	//mul8_024
 	//mul8_332
 
-	char NetName[] = "add8_ACA_I_N8_Q5";  //Íø±íÎÄ¼þÃûÃ»ÓÐ²»¼Óºó×º£¬Ö»ÐèÒªÐÞ¸Ä´Ë´¦¼´¿É£¬ÇëÈ·±£×ÊÔ´ÎÄ¼þºó×ºÃûÎª".isc"
+	char NetName[] = "add8_GDA_St_N8_M8_P6";  //ç½‘è¡¨æ–‡ä»¶åæ²¡æœ‰ä¸åŠ åŽç¼€ï¼Œåªéœ€è¦ä¿®æ”¹æ­¤å¤„å³å¯ï¼Œè¯·ç¡®ä¿èµ„æºæ–‡ä»¶åŽç¼€åä¸º".isc"
 	char Netpath[100];
 	strcpy(Netpath, "circuits\\");
 	strcat(Netpath, NetName);
@@ -51,10 +51,8 @@ int main(){
 	QueryPerformanceFrequency(&Freq);
 
 	float ret = cp->ReliabilityCal();
-	//float ret = cp->AXA1test();
 	//float ret = cp->add8_006test();
 	//float ret = cp->add8_Q5test();
-	//float ret = cp->add8_Q4test();
 
 	QueryPerformanceCounter(&EndTime);
 	Seconds = ((double)EndTime.QuadPart - (double)StartTime.QuadPart)

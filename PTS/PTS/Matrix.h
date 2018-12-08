@@ -1,4 +1,4 @@
-#ifndef _MATRIX_H_
+﻿#ifndef _MATRIX_H_
 #define _MATRIX_H_
 
 #include "NetlistToMap.h"
@@ -20,6 +20,7 @@ class Matrix
 public:
 	//
 	Matrix();
+	~Matrix();
 	//
 	bool MatrixMove(Struct_Matrix *src, Struct_Matrix *dest);
 	//

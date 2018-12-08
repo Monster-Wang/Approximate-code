@@ -1,9 +1,14 @@
-#include "Matrix.h"
+﻿#include "Matrix.h"
 #include <stdio.h>
 #include <iostream>
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 Matrix::Matrix()
+{
+	;
+}
+
+Matrix::~Matrix()
 {
 	;
 }

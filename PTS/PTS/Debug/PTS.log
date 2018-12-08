@@ -1,18 +1,123 @@
-﻿生成启动时间为 2018/12/5 14:28:00。
+﻿生成启动时间为 2018/12/8 11:36:50。
      1>项目“D:\VS Files\Circuit Simulation\PTS\PTS\PTS.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CircuitProcess.cpp Matrix.cpp main.cpp
+         CircuitProcess.cpp
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(63): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(70): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(74): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(122): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(124): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(126): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(180): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(196): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(197): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(198): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(199): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(200): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(203): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(204): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(205): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(206): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(207): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(208): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(222): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(223): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(224): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(225): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(226): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(227): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(241): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(242): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(243): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(244): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(245): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(248): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(249): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(250): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(251): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(252): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(253): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(267): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(268): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(269): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(270): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(271): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(272): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(287): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(302): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(304): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(305): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(306): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(307): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(321): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(323): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(324): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(325): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(326): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(147): warning C4101: “temp2”: 未引用的局部变量
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(399): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(417): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(418): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(419): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(420): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(422): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(423): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(426): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(427): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(428): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(443): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(444): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(445): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(460): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(461): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(462): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(463): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(465): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(466): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(469): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(470): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(471): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(486): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(487): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(488): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(366): warning C4101: “temp2”: 未引用的局部变量
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(656): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(674): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(813): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(818): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(828): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(832): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(842): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(846): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(856): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(860): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(870): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(874): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(884): warning C4305: “参数”: 从“double”到“float”截断
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(911): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(951): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(953): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(978): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(980): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(993): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(994): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(995): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1011): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1087): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1088): warning C4018: “<”: 有符号/无符号不匹配
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1096): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1111): warning C4244: “*=”: 从“double”转换到“float”，可能丢失数据
+     1>d:\vs files\circuit simulation\pts\pts\circuitprocess.cpp(1117): warning C4244: “*=”: 从“double”转换到“float”，可能丢失数据
+         正在生成代码...
+         正在编译...
          main.cpp
-     1>d:\vs files\circuit simulation\pts\pts\main.cpp(69): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.pdb" /HEAP:"500000000" /STACK:"500000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\VS Files\Circuit Simulation\PTS\Debug\PTS.lib" /MACHINE:X86 Debug\CircuitProcess.obj
-         Debug\LogicFunction.obj
-         Debug\main.obj
-         Debug\Matrix.obj
-         Debug\NetlistToMap.obj
-         PTS.vcxproj -> D:\VS Files\Circuit Simulation\PTS\Debug\PTS.exe
-     1>已完成生成项目“D:\VS Files\Circuit Simulation\PTS\PTS\PTS.vcxproj”(Build 个目标)的操作。
+     1>d:\vs files\circuit simulation\pts\pts\main.cpp(67): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+         Matrix.cpp
+     1>d:\vs files\circuit simulation\pts\pts\matrix.cpp(38): error C2148: 数组的总大小不得超过 0x7fffffff 字节
+         正在生成代码...
+     1>已完成生成项目“D:\VS Files\Circuit Simulation\PTS\PTS\PTS.vcxproj”(Build 个目标)的操作 - 失败。
 
-生成成功。
+生成失败。
 
-已用时间 00:00:01.01
+已用时间 00:00:01.84

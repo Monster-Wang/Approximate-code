@@ -48,8 +48,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <HeapReserveSize>500000000</HeapReserveSize>
-      <StackReserveSize>500000000</StackReserveSize>
+      <HeapReserveSize>10000000</HeapReserveSize>
+      <StackReserveSize>10000000</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
