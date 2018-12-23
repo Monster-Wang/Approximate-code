@@ -12,43 +12,52 @@
 CircuitProcess::CircuitProcess(NetlistToMap *map){
 
 	m_Module = map->FetchTotalModule();
-	//divde the cicuit by gate
+	/*divde the cicuit by gate*/
 	DivideByGate(m_Module);
-	//输入输出端子初始化
+	/*输入输出端子初始化*/
 	iotemp = IOPinGenerate(m_Module);
 
-	//generate the function value of the circuit
+	/*generate the function value of the circuit*/
 	//FCValue = fcValueGenerate(m_Module);
 
-	//detect the reconvert circuit
+	/*detect the reconvert circuit*/
 	//RecvgCircuit = RecvgDectect(m_Module);
 
 	FanofOutpath = GetDependentoutput(m_Module);
 }
+
 
 CircuitProcess::~CircuitProcess(){
 	
 }
 
 
-float CircuitProcess::ReliabilityCal(){	
+float CircuitProcess::ReliabilityCal(){
 
 	Struct_Module *Module = m_Module;
 	Matrix *ma = new Matrix();
 	Struct_Matrix temp, temp1;
 
+	temp.Matrix = new float *[MAX_MATRIX_ROW];
+	temp1.Matrix = new float *[MAX_MATRIX_ROW];
+	for (int j = 0; j < MAX_MATRIX_ROW; j++){
+		temp.Matrix[j] = new float[MAX_MATRIX_COL];
+		temp1.Matrix[j] = new float[MAX_MATRIX_COL];
+	}
+
 	float ret = 0.0f;
 	
 	int loop = (int)pow(2, Module->InputNum);
-	for (int m = 0; m < loop; m++){
+	for (int m = 0; m < loop; ++m){
 
-		//the temp matrix initial
+		/*the temp matrix initial*/
 		temp.Col = temp.Row = 1;
 		temp.Matrix[0][0] = 1;
 		temp1.Row = 1; temp1.Col = 2;
+		
 
-		//init the primary input 
-		InputInit(Module, iotemp, m);
+		/*init the primary input */
+		InputInit(Module, m);
 
 		int acValue = 0, a = 0, b = 0;
 
@@ -56,38 +65,58 @@ float CircuitProcess::ReliabilityCal(){
 			a |= ((int)Module->Gates[iotemp[i]].sProbability) << ((i / 2) - 1);
 			b |= ((int)Module->Gates[iotemp[i - 1]].sProbability) << ((i / 2) - 1);
 		}
-		iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)Module->Gates[iotemp[0]].sProbability);
+		/*the excepted value of approximate adders*/
+		//iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)Module->Gates[iotemp[0]].sProbability);
 
-		//node pribability calculate
-		for (int i = 1; i < Module->Level; i++){
-			for (int j = 0; j < Module->LevelGate[i].size(); j++){
-				//根据逻辑门的编号计算逻辑门的PGM，即输出端信号概率
+		/*the excepted value of approximate multipler*/
+		acValue = a * b;
+
+		/*node pribability calculate*/
+		for (int i = 1; i < Module->Level; ++i){
+			for (unsigned j = 0; j < Module->LevelGate[i].size(); ++j){
+				/*根据逻辑门的编号计算逻辑门的PGM，即输出端信号概率*/
 				GatePGMcal(Module, Module->LevelGate[i][j]);
 			}
 		}
 
-		//张量积运算
-		for (int j = 0; j < FanofOutpath.size(); j++){
-			if (FanofOutpath[j].outputs.size() == 1){
-				temp1.Row = 1; temp1.Col = 2;
-				temp1.Matrix[0][1] = Module->Gates[FanofOutpath[j].outputs[0]].sProbability;
-				temp1.Matrix[0][0] = 1.0 - temp1.Matrix[0][1];
-				ma->MatrixTensor(&temp1, &temp);
-			}
-			else{
-				temp1 = fantest(Module, FanofOutpath[j]);
-				ma->MatrixTensor(&temp1, &temp);
-			}
-		}
-
-		//张量积运算
+		/*The simple method*/
 		//for (int j = iotemp.size() - Module->OutputNum; j < iotemp.size(); j++){
 		//	temp1.Matrix[0][0] = 1 - Module->Gates[iotemp[j]].sProbability;
 		//	temp1.Matrix[0][1] = Module->Gates[iotemp[j]].sProbability;
 		//	ma->MatrixTensor(&temp1, &temp);
 		//}
 
-		//找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和
+		/*The accuracy method*/
+		for (int j = 0; j < FanofOutpath.size(); ++j){
+
+			if (FanofOutpath[j].outputs.size() < 1){
+				std::cerr << "This subcircuit not have outputs\n";
+				return -1;
+			} else if (FanofOutpath[j].outputs.size() == 1){
+				if (FanofOutpath[j].outputs[0] == 401){
+					temp1.Row = 1; temp1.Col = 2;
+					temp1.Matrix[0][0] = 1.0f;
+					temp1.Matrix[0][1] = 1.0f;
+					ma->MatrixTensor(&temp1, &temp);
+					for (unsigned int i = 0; i < temp.Col; ++i){
+						if (((i >> 0) & 0x1) ^ ((i >> 9) & 0x1))
+							temp.Matrix[0][i] = 0.0f;
+					}
+				}
+				else{
+					temp1.Row = 1; temp1.Col = 2;
+					temp1.Matrix[0][1] = Module->Gates[FanofOutpath[j].outputs[0]].sProbability;
+					temp1.Matrix[0][0] = 1.0f - temp1.Matrix[0][1];
+					ma->MatrixTensor(&temp1, &temp);
+				}
+			}
+			else{
+				fantest(Module, FanofOutpath[j], temp1);
+				ma->MatrixTensor(&temp1, &temp);
+			}
+		}
+
+		/*找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和*/
 		int fcValue = 0; float accumP = 0;
 		for (int i = 1; i < temp.Col; i++){
 			if (temp.Matrix[0][i] > temp.Matrix[0][fcValue])
@@ -95,19 +124,22 @@ float CircuitProcess::ReliabilityCal(){
 		}
 
 		int toplimit = max(acValue, fcValue);
-		for (int i = min(acValue, fcValue); i <= toplimit; i++)
+		for (int i = min(acValue, fcValue); i <= toplimit; ++i)
 			accumP += temp.Matrix[0][i];
 		//cout << acValue << "   " << fcValue << endl;
+
 		ret += accumP;
 
 	}
 
 	delete ma;
+	delete temp.Matrix; temp.Matrix = NULL;
+	delete temp1.Matrix; temp1.Matrix = NULL;
 	return (ret / ((float)pow(2, Module->InputNum)));
 }
 
 
-void CircuitProcess::RecvgRecal(Struct_Module *md, vector<recvg> rev){
+void CircuitProcess::RecvgRecal(Struct_Module *md, vector<recvg> &rev){
 	
 	Struct_Module module = *md;
 	float fantemp, revtemp;
@@ -135,387 +167,6 @@ void CircuitProcess::RecvgRecal(Struct_Module *md, vector<recvg> rev){
 		for (int i = 0; i < md->Gates[(*it).cvg].OutputNum; i++)
 			md->Gates[md->Gates[(*it).cvg].Output[i]].sProbability = revtemp;
 	}
-}
-
-
-float CircuitProcess::add8_Q5test(){
-	LogicFunction *Lg;
-	Lg = new LogicFunction();
-
-	Struct_Module *Module = m_Module;
-	Matrix *ma = new Matrix();
-	Struct_Matrix temp, temp1, temp2;
-
-	float ret = 0.0f;
-
-	for (int m = 0; m < (int)pow(2, Module->InputNum); m++){
-
-		//the temp matrix initial
-		temp.Col = temp.Row = 1;
-		temp.Matrix[0][0] = 1;
-		temp1.Row = 1; temp1.Col = 2;
-
-
-		//init the primary input 
-		InputInit(Module, iotemp, m);
-
-		int acValue = 0, a = 0, b = 0;
-
-		for (int i = iotemp.size() - m_Module->OutputNum - 1; i > 0; i -= 2){
-			a |= ((int)m_Module->Gates[iotemp[i]].sProbability) << ((i / 2) - 1);
-			b |= ((int)m_Module->Gates[iotemp[i - 1]].sProbability) << ((i / 2) - 1);
-		}
-		iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)m_Module->Gates[iotemp[0]].sProbability);
-
-		//node pribability calculate
-		for (int i = 1; i < Module->Level; i++){
-			vector <int>::iterator iter = Module->LevelGate[i].begin();
-			for (; iter != Module->LevelGate[i].end(); iter++){
-				//根据逻辑门的编号计算逻辑门的PGM，即输出端信号概率
-				GatePGMcal(Module, *iter);
-			}
-		}
-
-		//张量积运算
-		for (int j = iotemp.size() - Module->OutputNum; j < iotemp.size() - 7; j++){
-			temp1.Matrix[0][0] = 1 - Module->Gates[iotemp[j]].sProbability;
-			temp1.Matrix[0][1] = Module->Gates[iotemp[j]].sProbability;
-			ma->MatrixTensor(&temp1, &temp);
-		}
-
-
-		temp1.Row = 1; temp1.Col = 8;
-		for (int ii = 0; ii < temp1.Col; ii++)
-			temp1.Matrix[0][ii] = 0.0;
-
-		float n140, n166, n154, n162, n182, n189;
-		float ntemp, s[3] = { 0.0f };
-		n140 = Module->Gates[140].sProbability;
-
-		ntemp = 0;
-		Lg->XORFunction(s[0], ntemp, Module->Gates[104].sProbability, Rg);
-		Lg->ANDFunction(n154, ntemp, Module->Gates[21].sProbability, Rg);
-		Lg->ANDFunction(n162, ntemp, Module->Gates[29].sProbability, Rg);
-		Lg->ORFunction(n162, n162, Module->Gates[105].sProbability, Rg);
-		Lg->ORFunction(n166, n162, n154, Rg);
-
-		ntemp = 0;
-		Lg->XORFunction(s[1], ntemp, Module->Gates[111].sProbability, Rg);
-		Lg->ANDFunction(n182, ntemp, Module->Gates[37].sProbability, Rg);
-		Lg->ANDFunction(n189, ntemp, Module->Gates[47].sProbability, Rg);
-		Lg->ORFunction(n189, n189, Module->Gates[112].sProbability, Rg);
-		Lg->ORFunction(s[2], n189, n154, Rg);
-		Lg->ORFunction(s[2], s[2], Module->Gates[117].sProbability, Rg);
-		
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 3; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += (1 - n140)*(1 - n166)*pmul;
-		}
-
-		ntemp = 1;
-		Lg->XORFunction(s[1], ntemp, Module->Gates[111].sProbability, Rg);
-		Lg->ANDFunction(n182, ntemp, Module->Gates[37].sProbability, Rg);
-		Lg->ANDFunction(n189, ntemp, Module->Gates[47].sProbability, Rg);
-		Lg->ORFunction(n189, n189, Module->Gates[112].sProbability, Rg);
-		Lg->ORFunction(s[2], n189, n154, Rg);
-		Lg->ORFunction(s[2], s[2], Module->Gates[117].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 3; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += (1 - n140)*n166*pmul;
-		}
-
-		ntemp = 1;
-		Lg->XORFunction(s[0], ntemp, Module->Gates[104].sProbability, Rg);
-		Lg->ANDFunction(n154, ntemp, Module->Gates[21].sProbability, Rg);
-		Lg->ANDFunction(n162, ntemp, Module->Gates[29].sProbability, Rg);
-		Lg->ORFunction(n162, n162, Module->Gates[105].sProbability, Rg);
-		Lg->ORFunction(n166, n162, n154, Rg);
-
-		ntemp = 0;
-		Lg->XORFunction(s[1], ntemp, Module->Gates[111].sProbability, Rg);
-		Lg->ANDFunction(n182, ntemp, Module->Gates[37].sProbability, Rg);
-		Lg->ANDFunction(n189, ntemp, Module->Gates[47].sProbability, Rg);
-		Lg->ORFunction(n189, n189, Module->Gates[112].sProbability, Rg);
-		Lg->ORFunction(s[2], n189, n154, Rg);
-		Lg->ORFunction(s[2], s[2], Module->Gates[117].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 3; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += n140*(1 - n166)*pmul;
-		}
-
-		ntemp = 1;
-		Lg->XORFunction(s[1], ntemp, Module->Gates[111].sProbability, Rg);
-		Lg->ANDFunction(n182, ntemp, Module->Gates[37].sProbability, Rg);
-		Lg->ANDFunction(n189, ntemp, Module->Gates[47].sProbability, Rg);
-		Lg->ORFunction(n189, n189, Module->Gates[112].sProbability, Rg);
-		Lg->ORFunction(s[2], n189, n154, Rg);
-		Lg->ORFunction(s[2], s[2], Module->Gates[117].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 3; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += n140*n166*pmul;
-		}
-		ma->MatrixTensor(&temp1, &temp);
-
-		temp1.Row = 1; temp1.Col = 2;
-		for (int j = iotemp.size()-4; j < iotemp.size()-2; j++){
-			temp1.Matrix[0][0] = 1 - Module->Gates[iotemp[j]].sProbability;
-			temp1.Matrix[0][1] = Module->Gates[iotemp[j]].sProbability;
-			ma->MatrixTensor(&temp1, &temp);
-		}
-
-		temp1.Row = 1; temp1.Col = 4;
-		for (int ii = 0; ii < temp1.Col; ii++)
-			temp1.Matrix[0][ii] = 0.0;
-
-		float n195,n203,n205;
-		//float ntemp, s[2] = { 0.0f };
-		n195= Module->Gates[195].sProbability;
-		
-		ntemp = 0;
-		Lg->XORFunction(s[0], ntemp, Module->Gates[125].sProbability, Rg);
-
-		Lg->ANDFunction(n203, ntemp, Module->Gates[87].sProbability, Rg);
-		Lg->ANDFunction(n205, ntemp, Module->Gates[91].sProbability, Rg);
-		Lg->ORFunction(n205, n205, n203, Rg);
-		Lg->ORFunction(s[1], n205, Module->Gates[126].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 2; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += (1 - n195)*pmul;
-		}
-
-		ntemp = 1;
-		Lg->XORFunction(s[0], ntemp, Module->Gates[125].sProbability, Rg);
-
-		Lg->ANDFunction(n203, ntemp, Module->Gates[87].sProbability, Rg);
-		Lg->ANDFunction(n205, ntemp, Module->Gates[91].sProbability, Rg);
-		Lg->ORFunction(n205, n205, n203, Rg);
-		Lg->ORFunction(s[1], Module->Gates[205].sProbability, Module->Gates[126].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 2; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += n195*pmul;
-		}
-
-		ma->MatrixTensor(&temp1, &temp);
-
-
-		//找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和
-		int fcValue = 0; float accumP = 0;
-		for (int i = 1; i < temp.Col; i++){
-			if (temp.Matrix[0][i]>temp.Matrix[0][fcValue])
-				fcValue = i;
-		}
-
-		for (int i = min(acValue, fcValue); i <= max(acValue, fcValue); i++)
-			accumP += temp.Matrix[0][i];
-
-		//cout << acValue << "   " << fcValue << endl;
-		ret += accumP;
-	}
-
-	return (ret / ((float)pow(2, Module->InputNum)));
-}
-
-
-float CircuitProcess::add8_006test(){
-	LogicFunction *Lg;
-	Lg = new LogicFunction();
-
-	Struct_Module *Module = m_Module;
-	Matrix *ma = new Matrix();
-	Struct_Matrix temp, temp1, temp2;
-
-	float ret = 0.0f;
-
-	for (int m = 0; m < (int)pow(2, Module->InputNum); m++){
-		
-		//the temp matrix initial
-		temp.Col = temp.Row = 1;
-		temp.Matrix[0][0] = 1;
-		temp1.Row = 1; temp1.Col = 2;
-
-
-		//init the primary input 
-		InputInit(Module, iotemp, m);
-
-		int acValue = 0, a = 0, b = 0;
-
-		for (int i = iotemp.size() - m_Module->OutputNum - 1; i > 0; i -= 2){
-			a |= ((int)m_Module->Gates[iotemp[i]].sProbability) << ((i / 2) - 1);
-			b |= ((int)m_Module->Gates[iotemp[i - 1]].sProbability) << ((i / 2) - 1);
-		}
-		iotemp[0] < 0 ? acValue = a + b : acValue = a + b + ((int)m_Module->Gates[iotemp[0]].sProbability);
-
-		//node pribability calculate
-		for (int i = 1; i < Module->Level; i++){
-			vector <int>::iterator iter = Module->LevelGate[i].begin();
-			for (; iter != Module->LevelGate[i].end(); iter++){
-				//根据逻辑门的编号计算逻辑门的PGM，即输出端信号概率
-				GatePGMcal(Module, *iter);
-			}
-		}
-
-		//张量积运算
-		for (int j = iotemp.size() - Module->OutputNum; j < iotemp.size() - 4; j++){
-			temp1.Matrix[0][0] = 1 - Module->Gates[iotemp[j]].sProbability;
-			temp1.Matrix[0][1] = Module->Gates[iotemp[j]].sProbability;
-			ma->MatrixTensor(&temp1, &temp);
-		}
-
-
-		temp1.Row = 1; temp1.Col = 16;
-		for (int ii = 0; ii < temp1.Col; ii++)
-			temp1.Matrix[0][ii] = 0.0;
-
-
-		float n102, n112;
-		float ntmp, s[4] = { 0.0f };
-		n102 = Module->Gates[102].sProbability;
-
-		//n102=0，n112=0
-		ntmp = 0;
-		Lg->XORFunction(s[0], ntmp, Module->Gates[72].sProbability, Rg);
-		Lg->ANDFunction(s[1], ntmp, Module->Gates[73].sProbability, Rg);
-		Lg->ORFunction(s[1], s[1], Module->Gates[76].sProbability, Rg);
-		Lg->XORFunction(s[1], s[1], Module->Gates[81].sProbability, Rg);
-
-		Lg->ANDFunction(n112, ntmp, Module->Gates[91].sProbability, Rg);
-		Lg->ORFunction(n112, n112, Module->Gates[98].sProbability, Rg);
-
-		ntmp = 0;
-		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
-		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 4; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += (1 - n102)*(1 - n112)*pmul;
-		}
-
-		//n102=0，n112=1
-		ntmp = 1;
-		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
-		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 4; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += (1 - n102)*n112*pmul;
-		}
-
-		//n102=1，n112=0
-		ntmp = 1;
-		Lg->XORFunction(s[0], ntmp, Module->Gates[72].sProbability, Rg);
-		Lg->ANDFunction(s[1], ntmp, Module->Gates[73].sProbability, Rg);
-		Lg->ORFunction(s[1], s[1], Module->Gates[76].sProbability, Rg);
-		Lg->XORFunction(s[1], s[1], Module->Gates[81].sProbability, Rg);
-
-		Lg->ANDFunction(n112, ntmp, Module->Gates[91].sProbability, Rg);
-		Lg->ORFunction(n112, n112, Module->Gates[98].sProbability, Rg);
-
-		ntmp = 0;
-		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
-		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 4; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += n102*(1 - n112)*pmul;
-		}
-
-		//n102=1，n112=1
-		ntmp = 1;
-		Lg->XORFunction(s[2], ntmp, Module->Gates[84].sProbability, Rg);
-		Lg->ANDFunction(s[3], ntmp, Module->Gates[85].sProbability, Rg);
-		Lg->ORFunction(s[3], s[3], Module->Gates[86].sProbability, Rg);
-
-		for (int ii = 0; ii < temp1.Col; ii++){
-			float pmul = 1.0;
-			for (int jj = 0; jj < 4; jj++){
-				if ((ii >> jj) & 1)
-					pmul *= s[jj];
-				else
-					pmul *= (1 - s[jj]);
-			}
-			temp1.Matrix[0][ii] += n102*n112*pmul;
-		}
-
-		ma->MatrixTensor(&temp1, &temp);
-
-        
-		//找出每个输出向量的最大值，然后计算精确值和功能值之间的概率和
-		int fcValue = 0; float accumP = 0;
-		for (int i = 1; i < temp.Col; i++){
-			if (temp.Matrix[0][i]>temp.Matrix[0][fcValue])
-				fcValue = i;
-		}
-
-		for (int i = min(acValue, fcValue); i <= max(acValue, fcValue); i++)
-			accumP += temp.Matrix[0][i];
-
-		//cout << acValue << "   " << fcValue << endl;
-		ret += accumP;
-	}
-
-	return (ret / ((float)pow(2, Module->InputNum)));
 }
 
 
@@ -617,7 +268,7 @@ void CircuitProcess::DivideByGate(Struct_Module *Module)
 }
 
 
-void CircuitProcess::PathSearch(Struct_Module *md, vector<int> ph, int start){
+void CircuitProcess::PathSearch(Struct_Module *md, vector<int> &ph, int start){
 
 	ph.push_back(start);
 
@@ -719,55 +370,68 @@ vector<int> CircuitProcess::IOPinGenerate(Struct_Module *Module){
 
 	map<string, vector<int>> ioterminal;
 
-	vector<int> iotmp = { 1, 2, 3, 4, 5, 23, 22, 13 };
+	vector<int> iotmp = { 1, 2, 3, 4, 5, 
+		23, 22, 13 };
 	ioterminal.insert(map<string, vector<int>>::value_type("AMA2", iotmp));
 	iotmp.clear();
 
-	iotmp = { 3, 1, 2, 4, 5, 10, 13, 11 };
+	iotmp = { 3, 1, 2, 4, 5, 
+		10, 13, 11 };
 	ioterminal.insert(map<string, vector<int>>::value_type("InXA1", iotmp));
 	iotmp.clear();
 
-	iotmp = { 13, 10, 7, 4, 1, 15, 28, 31 };
+	iotmp = { 13, 10, 7, 4, 1, 
+		15, 28, 31 };
 	ioterminal.insert(map<string, vector<int>>::value_type("AXA1", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 2, 3, 6, 9, 12, 15, 19, 23, 28, 33, 36, 39, 42, 45, 48, 51, 52, 88, 101, 107, 108, 115, 116, 118 };
+	iotmp = { -1, 1, 2, 3, 6, 9, 12, 15, 19, 23, 28, 33, 36, 39, 42, 45, 48, 
+		51, 52, 88, 101, 107, 108, 115, 116, 118 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_006", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 4, 7, 12, 17, 24, 31, 40, 49, 57, 65, 71, 77, 81, 85, 89, 93, 127, 153, 179, 199, 200, 201, 202, 206 };
+	iotmp = { -1, 1, 4, 7, 12, 17, 24, 31, 40, 49, 57, 65, 71, 77, 81, 85, 89, 
+		93, 127, 153, 179, 199, 200, 201, 202, 206 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_ACA_I_N8_Q5", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 4, 7, 11, 15, 20, 25, 29, 33, 38, 43, 47, 51, 55, 59, 63, 67, 91, 113, 131, 116, 132, 119, 133, 137 };
+	iotmp = { -1, 1, 4, 7, 11, 15, 20, 25, 29, 33, 38, 43, 47, 51, 55, 59, 63, 
+		67, 91, 113, 131, 116, 132, 119, 133, 137 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_ACA_II_N8_Q4", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 47, 52, 70, 71, 72, 73, 74, 75, 76, 80 };
+	iotmp = { -1, 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 47, 
+		52, 70, 71, 72, 73, 74, 75, 76, 80 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_GDA_St_N8_M8_P1", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 5, 9, 13, 17, 22, 27, 31, 35, 40, 45, 49, 53, 56, 61, 64, 70, 92, 107, 122, 110, 123, 113, 124, 128 };
+	iotmp = { -1, 1, 5, 9, 13, 17, 22, 27, 31, 35, 40, 45, 49, 53, 56, 61, 64, 
+		70, 92, 107, 122, 110, 123, 113, 124, 128 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_GDA_St_N8_M4_P2", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 4, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 66, 109, 129, 143, 144, 145, 146, 147, 151 };
+	iotmp = { -1, 1, 4, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 
+		66, 109, 129, 143, 144, 145, 146, 147, 151 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_GDA_St_N8_M8_P3", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 4, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 66, 119, 146, 166, 175, 182, 190, 191, 195 };
+	iotmp = { -1, 1, 4, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 
+		66, 119, 146, 166, 175, 182, 190, 191, 195 };
 	ioterminal.insert(map<string, vector<int>>::value_type("add8_GDA_St_N8_M8_P6", iotmp));
 	iotmp.clear();
 
-	iotmp = { 65, 9, 69, 1, 42, 31, 55, 60, 97, 91, 46, 23, 4, 34, 12, 82, 145, 405, 250, 304, 354, 452, 404, 453, 406, 362, 407, 446, 454, 462, 470, 475 };
+	iotmp = {-1, 65, 9, 69, 1, 42, 31, 55, 60, 97, 91, 46, 23, 4, 34, 12, 82, 
+		145, 405, 250, 304, 354, 452, 404, 453, 406, 362, 407, 446, 454, 462, 470, 475 };
 	ioterminal.insert(map<string, vector<int>>::value_type("mul8_128", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 52, 27, 55, 1, 70, 79, 37, 82, 93, 73, 86, 30, 4, 42, 16, 59, 400, 419, 389, 175, 263, 470, 420, 469, 398, 401, 422, 452, 465, 473, 481, 486 };
+	iotmp = { -1, 52, 27, 55, 1, 70, 79, 37, 82, 93, 73, 86, 30, 4, 42, 16, 59, 
+		400, 419, 389, 175, 263, 470, 420, 469, 398, 401, 422, 452, 465, 473, 481, 486 };
 	ioterminal.insert(map<string, vector<int>>::value_type("mul8_024", iotmp));
 	iotmp.clear();
 
-	iotmp = { -1, 1, 17, 18, 5, 74, 40, 59, 24, 45, 66, 52, 79, 8, 87, 32, 95, 246, 616, 237, 621, 121, 623, 622, 624, 512, 559, 307, 350, 448, 540, 322, 349 };
+	iotmp = { -1, 1, 17, 18, 5, 74, 40, 59, 24, 45, 66, 52, 79, 8, 87, 32, 95, 
+		246, 616, 237, 621, 121, 623, 622, 624, 512, 559, 307, 350, 448, 540, 322, 349 };
 	ioterminal.insert(map<string, vector<int>>::value_type("mul8_332", iotmp));
 	iotmp.clear();
 
@@ -777,7 +441,7 @@ vector<int> CircuitProcess::IOPinGenerate(Struct_Module *Module){
 }
 
 
-void CircuitProcess::InputInit(Struct_Module *Module, vector<int> io, int rnd)
+void CircuitProcess::InputInit(Struct_Module *Module, int rnd)
 {
 
 	long ipt = rnd;
@@ -797,7 +461,7 @@ void CircuitProcess::InputInit(Struct_Module *Module, vector<int> io, int rnd)
 }
 
 
-void CircuitProcess::GatePGMcal(Struct_Module *Module,int GateNode){
+void CircuitProcess::GatePGMcal(Struct_Module *Module, int GateNode){
 	
 	LogicFunction *Lg = new LogicFunction();
 
@@ -1015,7 +679,7 @@ vector<subCircuit> CircuitProcess::GetDependentoutput(Struct_Module *md){
 	}
 
 
-	/*search the subcircuit of the fan to output*/
+	/*search the subcircuit from the fan to outputs*/
 	/*this part need not optimization*/
 	vector<int> sPath;
 	vector<subCircuit>::iterator itsc = ssC.begin();
@@ -1062,7 +726,7 @@ void CircuitProcess::OutputPathfanDectect(Struct_Module *md, int outtag){
 }
 
 
-Struct_Matrix CircuitProcess::fantest(Struct_Module *md, subCircuit& sC){
+void CircuitProcess::fantest(Struct_Module *md, subCircuit& sC, Struct_Matrix &temp1){
 
 	int fannum = sC.fans.size();
 	int outnum = sC.outputs.size();
@@ -1070,13 +734,13 @@ Struct_Matrix CircuitProcess::fantest(Struct_Module *md, subCircuit& sC){
 	int *fantemp = new int[fannum];
 	float *sptemp = new float[fannum];
 
-	Struct_Matrix temp1;
 	temp1.Row = 1; temp1.Col = (int)pow(2, outnum);
 	for (int i = 0; i < temp1.Col; i++)
 		temp1.Matrix[0][i] = 0.0;
 
 
-	for (int k = 0; k < (int)pow(2, fannum);k++){
+	for (int k = 0; k < (int)pow(2, fannum);++k){
+
 		for (int i = 0; i < fannum; i++){
 			fantemp[fannum - i - 1] = (k >> i) & 0x1;
 			sptemp[i] = 0.0;
@@ -1084,23 +748,24 @@ Struct_Matrix CircuitProcess::fantest(Struct_Module *md, subCircuit& sC){
 		//for (int i = 0; i < fannum; i++)
 		//	cout << fantemp[i] << "  "; cout << endl;
 
-		for (int i = 0; i < sC.cir.size(); i++){
-			for (int k = 0; k < sC.cir[i].size(); k++){
+		for (int i = 0; i < sC.cir.size(); ++i){
+			for (int k = 0; k < sC.cir[i].size(); ++k){
 				//calculating signal probability of the node
 				GatePGMcal(md, sC.cir[i][k]);
 				//if the node is fan father,that reset the signal probability of the node ;
-				for (int j = 0; j < fannum; j++){
+				for (int j = 0; j < fannum; ++j){
 					if (sC.cir[i][k] == sC.fans[j]){
 						sptemp[j] = md->Gates[sC.cir[i][k]].sProbability;
 						//cout << sptemp[j] <<endl;	
 						md->Gates[sC.cir[i][k]].sProbability = fantemp[j];
-						for (int jj = 0; jj < md->Gates[sC.cir[i][k]].OutputNum; jj++)
+						for (int jj = 0; jj < md->Gates[sC.cir[i][k]].OutputNum; ++jj)
 							md->Gates[md->Gates[sC.cir[i][k]].Output[jj]].sProbability = md->Gates[sC.cir[i][k]].sProbability;
 						break;
 					}
 				}
 			}
 		}
+
 		//calculate the part of output node combination probability 
 		for (int ii = 0; ii < temp1.Col; ii++){
 			float pmul = 1.0;
@@ -1120,7 +785,10 @@ Struct_Matrix CircuitProcess::fantest(Struct_Module *md, subCircuit& sC){
 		}
 	}
 
-	delete [] fantemp; fantemp = NULL;
-	delete [] sptemp; sptemp = NULL;
-	return temp1;
+	delete[] fantemp; fantemp = NULL;
+	delete[] sptemp; sptemp = NULL;
 }
+
+
+
+

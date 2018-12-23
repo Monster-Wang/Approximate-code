@@ -37,21 +37,19 @@ public:
 	void DivideByGate(Struct_Module *Module);
 	/*if rnd = -1, the input vector will be generated randomly*/
 	/*if rnd >=0, the input vector will be seted the value of rnd*/
-	void InputInit(Struct_Module *Module, vector<int>io, int rnd);
+	void InputInit(Struct_Module *Module, int rnd);
 
 	vector<int> IOPinGenerate(Struct_Module *Module);
 	vector<recvg> RecvgDectect(Struct_Module *md);
-	void PathSearch(Struct_Module *md, vector<int> ph, int start);
-	void RecvgRecal(Struct_Module *md, vector<recvg> rev);
+	void PathSearch(Struct_Module *md, vector<int> &ph, int start);
+	void RecvgRecal(Struct_Module *md, vector<recvg> &rev);
 	void GatePGMcal(Struct_Module *Module, int GateNode);
 	
 	void OutputPathfanDectect(Struct_Module *md, int outtag);
 	vector<subCircuit> GetDependentoutput(Struct_Module *md);
-	Struct_Matrix fantest(Struct_Module* md, subCircuit& sC);
+	void fantest(Struct_Module *md, subCircuit &sC, Struct_Matrix &temp1);
 
 	float ReliabilityCal();
-	float add8_006test();
-	float add8_Q5test();
 
 private:
 	Struct_Module *m_Module;

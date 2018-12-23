@@ -3,16 +3,19 @@
 
 #include "NetlistToMap.h"
 
-#define MAX_MATRIX_SQUARE 1024
+
+#define MAX_MATRIX_ROW 1
+#define MAX_MATRIX_COL 65536
 
 
 typedef struct
 {
 	int Col;
 	int Row;
-	float Matrix[1][MAX_MATRIX_SQUARE];
+	float **Matrix;
 
 }Struct_Matrix;
+
 
 
 class Matrix
@@ -31,7 +34,7 @@ public:
 	void StoreMatrix(char *netName, Struct_Matrix *src);
 	//
 	void MatrixPrint(Struct_Matrix *src);
-	
+	//
 	void ClearFile(char *netName);
 
 };

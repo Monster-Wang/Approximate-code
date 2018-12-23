@@ -19,8 +19,8 @@ bool Matrix::MatrixMove(Struct_Matrix *src, Struct_Matrix *dest)
 {
 	int i, j;
 
-	if (src->Col == 0 || src->Row == 0 || src->Col > MAX_MATRIX_SQUARE
-		|| src->Row > MAX_MATRIX_SQUARE)
+	if (src->Col == 0 || src->Row == 0 || src->Col > MAX_MATRIX_COL
+		|| src->Row > MAX_MATRIX_ROW)
 		return false;
 
 	dest->Col = src->Col;
@@ -35,11 +35,11 @@ bool Matrix::MatrixMove(Struct_Matrix *src, Struct_Matrix *dest)
 bool Matrix::MatrixMultiply(Struct_Matrix *src, Struct_Matrix *dest )
 {
 	int i, j, k;
-	float temp[MAX_MATRIX_SQUARE][MAX_MATRIX_SQUARE];
+	float temp[MAX_MATRIX_ROW][MAX_MATRIX_COL];
 
-	if (src->Col == 0 || src->Row == 0 || src->Col > MAX_MATRIX_SQUARE
-		|| src->Row > MAX_MATRIX_SQUARE || dest->Col > MAX_MATRIX_SQUARE
-		|| dest->Row > MAX_MATRIX_SQUARE)
+	if (src->Col == 0 || src->Row == 0 || src->Col > MAX_MATRIX_COL
+		|| src->Row > MAX_MATRIX_ROW || dest->Col > MAX_MATRIX_COL
+		|| dest->Row > MAX_MATRIX_ROW)
 		return false;
 	if (dest->Col == 0 && dest->Row == 0)
 	{
@@ -70,13 +70,13 @@ bool Matrix::MatrixMultiply(Struct_Matrix *src, Struct_Matrix *dest )
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 bool Matrix::MatrixTensor(Struct_Matrix *src, Struct_Matrix *dest)
 {
-	int i, j, m, n;
-	float Temp[1][MAX_MATRIX_SQUARE];
+	int i=0, j=0, m, n;
+	float Temp[MAX_MATRIX_ROW][MAX_MATRIX_COL];
 
-	if (src->Col == 0 || src->Row == 0  || src->Col > MAX_MATRIX_SQUARE
-		|| src->Row > MAX_MATRIX_SQUARE || dest->Col > MAX_MATRIX_SQUARE
-		|| dest->Row > MAX_MATRIX_SQUARE || src->Col*dest->Col > MAX_MATRIX_SQUARE
-		|| src->Row*dest->Row > MAX_MATRIX_SQUARE)
+	if (src->Col == 0 || src->Row == 0 
+		|| src->Col > MAX_MATRIX_COL || src->Row > MAX_MATRIX_ROW 
+		|| dest->Col > MAX_MATRIX_COL || dest->Row > MAX_MATRIX_ROW 
+		|| src->Col*dest->Col > MAX_MATRIX_COL || src->Row*dest->Row > MAX_MATRIX_ROW)
 		return false;
 
 	if (dest->Col == 0 && dest->Row == 0)
@@ -91,7 +91,7 @@ bool Matrix::MatrixTensor(Struct_Matrix *src, Struct_Matrix *dest)
 		for (j = 0; j <(dest->Row); j++)
 			for (m = 0; m <(src->Col); m++)			
 				for (n = 0; n < (dest->Col); n++)
-		           Temp[i*(dest->Row) + j][m*(dest->Col) + n] = src->Matrix[i][m] * dest->Matrix[j][n];
+					Temp[i*(dest->Row) + j][m*(dest->Col) + n] = src->Matrix[i][m] * dest->Matrix[j][n];
 					
 	for (i = 0; i <((src->Row)*(dest->Row)); i++)
 		for (j = 0; j <((src->Col)*(dest->Col)); j++)
@@ -109,10 +109,11 @@ void Matrix::StoreMatrix(char *netName, Struct_Matrix *src)
 	int i, j;
 	char Filename[100];
 
-	if (src == NULL){
-		cout << "The Matrix is NULL" << endl;
-		return;
-	}
+	//if (src == NULL){
+	//	cout << "The Matrix is NULL" << endl;
+	//	return;
+	//}
+
 	strcpy(Filename, "./backup/");
 	strcat(Filename, netName);
 	strcat(Filename, ".txt");
@@ -150,7 +151,6 @@ void Matrix::MatrixPrint(Struct_Matrix *src)
 void Matrix::ClearFile(char *netName){
 
 	FILE *fp;
-	int i, j;
 	char Filename[100];
 	strcpy(Filename, "./backup/" );
 	strcat(Filename, netName);

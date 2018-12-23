@@ -4,30 +4,33 @@
 #include "NetlistToMap.h"
 #include "LogicFunction.h"
 #include "CircuitProcess.h"
+#include <string>
+
 using namespace std;
+
+//AMA2
+//InXA1
+//AXA1
+//add8_006               1
+//add8_ACA_I_N8_Q5       13
+//add8_ACA_II_N8_Q4      7
+//add8_GDA_St_N8_M8_P1   1
+//add8_GDA_St_N8_M4_P2   4
+//add8_GDA_St_N8_M8_P3   6
+//add8_GDA_St_N8_M8_P6   56
+//mul8_128
+//mul8_024
+//mul8_332
+
+
 
 int main(){
 	NetlistToMap *circuitnet;
-
-	float memory;
-	double Seconds;
 	LARGE_INTEGER StartTime, EndTime, Freq;
-	
-	//AMA2
-	//InXA1
-	//AXA1
-	//add8_006               1
-	//add8_ACA_I_N8_Q5       13
-	//add8_ACA_II_N8_Q4      7
-	//add8_GDA_St_N8_M8_P1   1
-	//add8_GDA_St_N8_M4_P2   4
-	//add8_GDA_St_N8_M8_P3   6
-	//add8_GDA_St_N8_M8_P6   56
-	//mul8_128
-	//mul8_024
-	//mul8_332
 
-	char NetName[] = "add8_GDA_St_N8_M8_P6";  //网表文件名没有不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
+
+
+	char NetName[] = "mul8_024";  //网表文件名不加后缀，只需要修改此处即可，请确保资源文件后缀名为".isc"
 	char Netpath[100];
 	strcpy(Netpath, "circuits\\");
 	strcat(Netpath, NetName);
@@ -50,12 +53,11 @@ int main(){
 	QueryPerformanceCounter(&StartTime);
 	QueryPerformanceFrequency(&Freq);
 
+	/*calculating reliability of the circuit*/
 	float ret = cp->ReliabilityCal();
-	//float ret = cp->add8_006test();
-	//float ret = cp->add8_Q5test();
 
 	QueryPerformanceCounter(&EndTime);
-	Seconds = ((double)EndTime.QuadPart - (double)StartTime.QuadPart)
+	float Seconds = ((double)EndTime.QuadPart - (double)StartTime.QuadPart)
 		/ (double)(Freq.QuadPart);
 
 	printf("circuit: %s\n", NetName);
@@ -64,8 +66,9 @@ int main(){
 	printf("Need Time: %.4fs\n", Seconds);
 	PROCESS_MEMORY_COUNTERS pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
-	memory = pmc.WorkingSetSize / 1024.0 / 1024.0;
+	float memory = pmc.WorkingSetSize / 1024.0f / 1024.0f;
 	printf("Need Memory: %.3fMb\n", memory);
 	system("pause");
+
 	return 0;
 }

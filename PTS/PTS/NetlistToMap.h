@@ -1,4 +1,4 @@
-#ifndef _NETLISTTOMAP_H_
+ï»¿#ifndef _NETLISTTOMAP_H_
 #define _NETLISTTOMAP_H_
 
 #include <stdio.h>
@@ -9,16 +9,16 @@
 #include <algorithm>
 using namespace std;
 
-//ÉèÖÃµçÂ·ÊôĞÔ
-#define MAX_INPUT_TO_GATE		40   //µçÂ·ÖĞÂß¼­ÃÅµÄ×î´óÊäÈëÊıÄ¿
-#define MAX_OUTPUT_TO_GATE		40   //µçÂ·ÖĞÂß¼­ÃÅµÄÊä³ö½Úµã¶ËÉÈ³öÊıÄ¿
-#define MAX_INPUT_TO_MODULE		250  //µçÂ·×î´óÔ­Ê¼ÊäÈëÊıÄ¿
-#define MAX_OUTPUT_TO_MODULE	150  //µçÂ·ÖĞ×î´óÔ­Ê¼Êä³öÊıÄ¿
-#define MAX_GATES_IN_MODULE		4000 //µçÂ·ÖĞÃÅÊıÉÏÏŞ
-#define MAX_LEVELNUM            1000 //·Ö²ãºó·ÖµÃ²ãÊıÉÏÏŞ 
-#define MAX_IN_GATES		    1300 //µçÂ·µÄ×î´ó¿í¶ÈÉÏÏŞ
+//è®¾ç½®ç”µè·¯å±æ€§
+#define MAX_INPUT_TO_GATE		40   //ç”µè·¯ä¸­é€»è¾‘é—¨çš„æœ€å¤§è¾“å…¥æ•°ç›®
+#define MAX_OUTPUT_TO_GATE		40   //ç”µè·¯ä¸­é€»è¾‘é—¨çš„è¾“å‡ºèŠ‚ç‚¹ç«¯æ‰‡å‡ºæ•°ç›®
+#define MAX_INPUT_TO_MODULE		250  //ç”µè·¯æœ€å¤§åŸå§‹è¾“å…¥æ•°ç›®
+#define MAX_OUTPUT_TO_MODULE	150  //ç”µè·¯ä¸­æœ€å¤§åŸå§‹è¾“å‡ºæ•°ç›®
+#define MAX_GATES_IN_MODULE		4000 //ç”µè·¯ä¸­é—¨æ•°ä¸Šé™
+#define MAX_LEVELNUM            1000 //åˆ†å±‚ååˆ†å¾—å±‚æ•°ä¸Šé™ 
+#define MAX_IN_GATES		    1300 //ç”µè·¯çš„æœ€å¤§å®½åº¦ä¸Šé™
 
-//½ÚµãÀàĞÍ
+//èŠ‚ç‚¹ç±»å‹
 #define TYPE_INVALID 0
 #define TYPE_INPUT	 1
 #define TYPE_FAN	 2
@@ -34,30 +34,30 @@ using namespace std;
 typedef struct
 {
 	bool NodeValue[2];
-	char Name[10];						//ÃÅµÄÃû³Æ
-	int Input[MAX_INPUT_TO_GATE];		//Ö¸ÏòÊäÈë¶Ë
-	int Output[MAX_OUTPUT_TO_GATE];		//Ö¸ÏòÊä³ö¶Ë
-	int	Type;							//½ÚµãÀàĞÍ
-	int Tag;							//½Úµã±àºÅ
-	int InputNum;
-	int OutputNum;			            //Í³¼ÆÊäÈë¡¢Êä³ö¶Ë¿ÚÊı
-	int inLevel;
-	float sProbability;               //½ÚµãĞÅºÅ¸ÅÂÊP{s=1}
+	char Name[10];						//é—¨çš„åç§°
+	int Input[MAX_INPUT_TO_GATE];		//æŒ‡å‘è¾“å…¥ç«¯
+	int Output[MAX_OUTPUT_TO_GATE];		//æŒ‡å‘è¾“å‡ºç«¯
+	int	Type;							//èŠ‚ç‚¹ç±»å‹
+	int Tag;							//èŠ‚ç‚¹ç¼–å·
+	int InputNum;                       //é—¨çš„è¾“å…¥ç«¯å£æ•°
+	int OutputNum;			            //é—¨è¾“å‡ºç«¯å£æ•°ï¼ŒåŒ…å«æ‰‡å‡º
+	int inLevel;                        //é—¨æ‰€åœ¨çš„å±‚å·
+	float sProbability;                 //èŠ‚ç‚¹ä¿¡å·æ¦‚ç‡P{s=1}
 }Struct_Gate;
 
 
 typedef struct
 {
-	char Name[30];                          //Íø±íÎÄ¼şÃû
-	int Input_head[MAX_INPUT_TO_MODULE];	//Ã¿¸öÄ£¿éµÄÊäÈëÁ´±í
-	int Output_head[MAX_OUTPUT_TO_MODULE];	//Ã¿¸öÄ£¿éµÄÊä³öÁ´±í
-	int NodeNum;							//Ä£¿é°üº¬µÄ½ÚµãÊı
-	int GateNum;                            //Ä£¿é°üº¬µÄÃÅÊı
-	int InputNum;
-	int OutputNum;
-	int Level;							    //Ã¿¸öÄ£¿é°üº¬µÄ²ã´ÎÊı
-	vector<int> LevelGate[MAX_LEVELNUM];    //Ò»Î¬±íÊ¾²ãºÅ£¬¶şÎ¬±íÊ¾±¾²ãµÄÃÅºÅ
-	Struct_Gate Gates[MAX_GATES_IN_MODULE]; //Íø±í°üº¬ÃÅĞÅÏ¢,Êı×éË÷ÒıºÅ¾ÍÊÇÃÅÊä³ö½Úµã±àºÅ
+	char Name[30];                          //ç½‘è¡¨æ–‡ä»¶å
+	int Input_head[MAX_INPUT_TO_MODULE];	//æ¯ä¸ªæ¨¡å—çš„è¾“å…¥é“¾è¡¨
+	int Output_head[MAX_OUTPUT_TO_MODULE];	//æ¯ä¸ªæ¨¡å—çš„è¾“å‡ºé“¾è¡¨
+	int NodeNum;							//æ¨¡å—åŒ…å«çš„èŠ‚ç‚¹æ•°
+	int GateNum;                            //æ¨¡å—åŒ…å«çš„é—¨æ•°
+	int InputNum;                           //æ¨¡å—è¾“å…¥ç«¯å£æ•°
+	int OutputNum;                          //æ¨¡å—è¾“å‡ºç«¯å£æ•°
+	int Level;							    //æ¯ä¸ªæ¨¡å—åŒ…å«çš„å±‚æ¬¡æ•°
+	vector<int> LevelGate[MAX_LEVELNUM];    //ä¸€ç»´è¡¨ç¤ºå±‚å·ï¼ŒäºŒç»´è¡¨ç¤ºæœ¬å±‚çš„é—¨å·
+	Struct_Gate Gates[MAX_GATES_IN_MODULE]; //ç½‘è¡¨åŒ…å«é—¨ä¿¡æ¯,æ•°ç»„ç´¢å¼•å·å°±æ˜¯é—¨è¾“å‡ºèŠ‚ç‚¹ç¼–å·
 }Struct_Module;
 
 
@@ -67,15 +67,15 @@ public:
 	NetlistToMap(char *modulename);
 	~NetlistToMap();
 
-	//½âÎöÍø±í£¬µ¼³ÉÍ¼µÄĞÎÊ½½øĞĞ´æ´¢
+	//è§£æç½‘è¡¨ï¼Œå¯¼æˆå›¾çš„å½¢å¼è¿›è¡Œå­˜å‚¨
 	bool ParseNetlist(char *filename);
-	//¼ì²â×Ö·ûÊÇ·ñÊÇ¿Õ¡¢/t¡¢»Ø³µ¡¢*µÈÌØÊâ×Ö·û£¬ÕâĞ©×Ö·ûÓ¦¸ÃÌø¹ı
+	//æ£€æµ‹å­—ç¬¦æ˜¯å¦æ˜¯ç©ºã€/tã€å›è½¦ã€*ç­‰ç‰¹æ®Šå­—ç¬¦ï¼Œè¿™äº›å­—ç¬¦åº”è¯¥è·³è¿‡
 	bool IsSpecialChar(char c);
-	//¼ì²â×Ö·û´®ÊÇ·ñÊÇÊı×Ö
+	//æ£€æµ‹å­—ç¬¦ä¸²æ˜¯å¦æ˜¯æ•°å­—
 	bool IsNumWord(char str[]);
-	//¸ù¾İ½ÚµãÃû³ÆÔÚÍ¼ÖĞËÑË÷¸Ã½ÚµãµÄĞòºÅ£¬·µ»Ø0´ú±íÃ»ÓĞËÑË÷µ½
+	//æ ¹æ®èŠ‚ç‚¹åç§°åœ¨å›¾ä¸­æœç´¢è¯¥èŠ‚ç‚¹çš„åºå·ï¼Œè¿”å›0ä»£è¡¨æ²¡æœ‰æœç´¢åˆ°
 	int SearchGateByName(char str[]);
-	//Êä³öÕû¸öµçÂ·Ä£¿é
+	//è¾“å‡ºæ•´ä¸ªç”µè·¯æ¨¡å—
 	Struct_Module *FetchTotalModule();	
 	
 private:
